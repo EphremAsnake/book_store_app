@@ -6,10 +6,11 @@ import 'package:get/get.dart';
 import 'package:resize/resize.dart';
 import 'package:skeleton_loader/skeleton_loader.dart';
 
-import '../../../controller/bookdownload.dart';
+import '../../../controller/downloadcontroller.dart';
 import '../../../services/apicalls.dart';
 import '../../../services/repos/functions.dart';
 import '../../../widgets/book.dart';
+import '../../searchbooks/searchpage.dart';
 import 'component/silverappbar.dart';
 import 'logic.dart';
 
@@ -112,6 +113,7 @@ class _HomePageState extends State<HomePage>
                                             right: 20.0, top: 20.h),
                                         child: TextFormField(
                                           onTap: () {
+                                            Get.to(const SearchPage());
                                             // Get.toNamed(
                                             //     PageRoutes.searchConsultant);
                                           },

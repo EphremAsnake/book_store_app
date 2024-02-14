@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:resize/resize.dart';
 
-import 'src/controller/bookdownload.dart';
+import 'src/controller/downloadcontroller.dart';
 import 'src/pages/navigations/home/logic.dart';
 
 Future<void> main() async {

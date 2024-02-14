@@ -5,8 +5,16 @@ import 'package:get_storage/get_storage.dart';
 class DownloadedBook {
   final String id;
   final String path;
+  final String name;
+  final String thumbnailUrl;
+  final String author;
 
-  DownloadedBook({required this.id, required this.path});
+  DownloadedBook(
+      {required this.id,
+      required this.path,
+      required this.name,
+      required this.thumbnailUrl,
+      required this.author});
 }
 
 class DownloadedBooksController extends GetxController {
@@ -25,9 +33,11 @@ class DownloadedBooksController extends GetxController {
       downloadedBooks.value = savedBooks
           .whereType<Map<String, dynamic>>()
           .map((book) => DownloadedBook(
-                id: book['id'],
-                path: book['path'],
-              ))
+              id: book['id'],
+              path: book['path'],
+              name: book['name'],
+              thumbnailUrl: book['thumbnailUrl'],
+              author: book['author']))
           .toList();
       debugPrint('saved books length ${downloadedBooks.length}');
     } else {
@@ -39,7 +49,13 @@ class DownloadedBooksController extends GetxController {
     _storage.write(
         'downloadedBooks',
         downloadedBooks
-            .map((book) => {'id': book.id, 'path': book.path})
+            .map((book) => {
+                  'id': book.id,
+                  'path': book.path,
+                  'name': book.name,
+                  'thumbnailUrl': book.thumbnailUrl,
+                  'author': book.author
+                })
             .toList());
   }
 
@@ -53,9 +69,33 @@ class DownloadedBooksController extends GetxController {
     }
   }
 
-  void addDownloadedBook(String id, String path) {
+  // DownloadedBook getdownloadedBookData(String id) {
+  //   final book = downloadedBooks.firstWhereOrNull((book) => book.id == id);
+  //   if (book != null) {
+  //     debugPrint(book.path);
+  //     return DownloadedBook(
+  //         author: book.author,
+  //         id: book.id,
+  //         thumbnailUrl: book.thumbnailUrl,
+  //         path: book.path,
+  //         name: book.name);
+  //   } else {
+  //     throw Exception('Book with ID $id not found in downloaded books.');
+  //   }
+  // }
+  List<DownloadedBook> getAllDownloadedBooks() {
+    return downloadedBooks.toList();
+  }
+
+  void addDownloadedBook(
+      String id, String path, String name, String thumbnailUrl, String author) {
     if (!isBookDownloaded(id)) {
-      downloadedBooks.add(DownloadedBook(id: id, path: path));
+      downloadedBooks.add(DownloadedBook(
+          id: id,
+          path: path,
+          name: name,
+          thumbnailUrl: thumbnailUrl,
+          author: author));
       _saveDownloadedBooks();
     } else {
       debugPrint('Book with ID $id is already downloaded.');

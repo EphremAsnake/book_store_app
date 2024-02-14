@@ -1,9 +1,12 @@
 import 'package:book_store/src/utils/constants/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:resize/resize.dart';
+import '../../../controller/downloadcontroller.dart';
 import '../../../widgets/downloadeditem.dart';
 import '../../../widgets/downloadsgroup.dart';
+import '../../view/pdfview.dart';
 import 'components/babstrap_settings_screen.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -15,6 +18,15 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   final PageController _pageController = PageController(initialPage: 0);
+  late List<DownloadedBook> downloadedBooks;
+  final bookDownloaderController = Get.put(DownloadedBooksController());
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    downloadedBooks = bookDownloaderController.getAllDownloadedBooks();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -215,24 +227,48 @@ class _SettingsPageState extends State<SettingsPage> {
                                           const SizedBox(
                                             height: 10,
                                           ),
-                                          DownloadsGroup(
-                                            items: [
-                                              DownloadedItem(
-                                                onTap: () {},
-                                                title: 'Favorites',
-                                                author: "Your Favorite Books",
-                                                imageUrl:
-                                                    'https://marketplace.canva.com/EAFPHUaBrFc/1/0/1003w/canva-black-and-white-modern-alone-story-book-cover-QHBKwQnsgzs.jpg',
-                                              ),
-                                              DownloadedItem(
-                                                onTap: () {},
-                                                title: 'Favorites',
-                                                author: "Your Favorite Books",
-                                                imageUrl:
-                                                    'https://marketplace.canva.com/EAFPHUaBrFc/1/0/1003w/canva-black-and-white-modern-alone-story-book-cover-QHBKwQnsgzs.jpg',
-                                              ),
-                                            ],
-                                          ),
+                                          ListView.builder(
+                                              shrinkWrap: true,
+                                              itemCount: downloadedBooks.length,
+                                              itemBuilder: (context, index) {
+                                                DownloadedBook book =
+                                                    downloadedBooks[index];
+                                                return DownloadsGroup(
+                                                  items: [
+                                                    DownloadedItem(
+                                                      onTap: () {
+                                                        Get.to(BookView(
+                                                            filepath: book.path,
+                                                            booktitle:
+                                                                book.name));
+                                                      },
+                                                      title: book.name,
+                                                      author: book.author,
+                                                      imageUrl:
+                                                          book.thumbnailUrl,
+                                                    ),
+                                                    
+                                                  ],
+                                                );
+                                              }),
+                                          // DownloadsGroup(
+                                          //   items: [
+                                          //     DownloadedItem(
+                                          //       onTap: () {},
+                                          //       title: downloadedBooks.length.toString(),
+                                          //       author: "Your Favorite Books",
+                                          //       imageUrl:
+                                          //           'https://marketplace.canva.com/EAFPHUaBrFc/1/0/1003w/canva-black-and-white-modern-alone-story-book-cover-QHBKwQnsgzs.jpg',
+                                          //     ),
+                                          //     DownloadedItem(
+                                          //       onTap: () {},
+                                          //       title: 'Favorites',
+                                          //       author: "Your Favorite Books",
+                                          //       imageUrl:
+                                          //           'https://marketplace.canva.com/EAFPHUaBrFc/1/0/1003w/canva-black-and-white-modern-alone-story-book-cover-QHBKwQnsgzs.jpg',
+                                          //     ),
+                                          //   ],
+                                          // ),
                                           // You can add a settings title
 
                                           const SizedBox(

@@ -5,7 +5,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:resize/resize.dart';
 
-import '../controller/bookdownload.dart';
+import '../controller/downloadcontroller.dart';
 import '../pages/view/pdfview.dart';
 import 'downloadalert.dart';
 
@@ -89,7 +89,8 @@ class DownloadButtonState extends State<DownloadButton>
         controller.isBookDownloaded(widget.bookModel.id.toString())
             ? Get.to(BookView(
                 filepath:
-                    controller.getBookPath(widget.bookModel.id.toString()), booktitle: widget.bookModel.name))
+                    controller.getBookPath(widget.bookModel.id.toString()),
+                booktitle: widget.bookModel.name))
             : DownloadAlert.show(
                 context: context,
                 url: widget.bookModel.pdfUrl,
@@ -99,7 +100,11 @@ class DownloadButtonState extends State<DownloadButton>
               ).then((result) {
                 if (result != null) {
                   controller.addDownloadedBook(
-                      widget.bookModel.id.toString(), result);
+                      widget.bookModel.id.toString(),
+                      result,
+                      widget.bookModel.name,
+                      widget.bookModel.thumbnailUrl,
+                      widget.bookModel.author);
                 }
               });
       },
