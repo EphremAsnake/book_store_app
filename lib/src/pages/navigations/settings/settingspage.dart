@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:book_store/src/utils/constants/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:resize/resize.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../../../controller/appconfigs.dart';
 import '../../../controller/downloadcontroller.dart';
 import '../../../widgets/downloadeditem.dart';
 import '../../../widgets/downloadsgroup.dart';
@@ -17,9 +21,10 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  final PageController _pageController = PageController(initialPage: 0);
+  final PageController _pageController = PageController(initialPage: 1);
   late List<DownloadedBook> downloadedBooks;
   final bookDownloaderController = Get.put(DownloadedBooksController());
+  final appconfigsController = Get.put(AppConfigController());
 
   @override
   void initState() {
@@ -33,7 +38,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return PopScope(
       canPop: false,
       onPopInvoked: (didPop) {
-        _pageController.animateToPage(0,
+        _pageController.animateToPage(1,
             duration: const Duration(milliseconds: 500), curve: Curves.ease);
       },
       child: SingleChildScrollView(
@@ -102,6 +107,75 @@ class _SettingsPageState extends State<SettingsPage> {
                                     padding:
                                         EdgeInsets.symmetric(horizontal: 20.h),
                                     child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          10, 0, 10, 10),
+                                      child: ListView(
+                                        physics: const BouncingScrollPhysics(),
+                                        children: [
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              InkWell(
+                                                onTap: () {
+                                                  _pageController.animateToPage(
+                                                      1,
+                                                      duration: const Duration(
+                                                          milliseconds: 500),
+                                                      curve: Curves.ease);
+                                                },
+                                                child: const Icon(
+                                                  Icons.arrow_back,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                              Text(
+                                                'About',
+                                                style: TextStyle(
+                                                    fontSize: 18.sp,
+                                                    color: Colors.black,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              const SizedBox()
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
+                                          Text(
+                                            Platform.isAndroid? appconfigsController
+                                                    .appConfig
+                                                    .value
+                                                    ?.androidSettings
+                                                    .aboutApp ??
+                                                'Loading...':appconfigsController
+                                                    .appConfig
+                                                    .value
+                                                    ?.iosSettings
+                                                    .aboutApp ??
+                                                'Loading...',
+                                          ),
+                                          const SizedBox(
+                                            height: 50,
+                                          )
+                                        ],
+                                      ),
+                                    ))),
+                            Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.7,
+                                width: MediaQuery.of(context).size.width,
+                                decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(50))),
+                                child: Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 20.h),
+                                    child: Padding(
                                       padding: const EdgeInsets.all(10),
                                       child: ListView(
                                         physics: const BouncingScrollPhysics(),
@@ -121,7 +195,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                               SettingsItem(
                                                 onTap: () {
                                                   _pageController.animateToPage(
-                                                      1,
+                                                      2,
                                                       duration: const Duration(
                                                           milliseconds: 500),
                                                       curve: Curves.ease);
@@ -136,7 +210,21 @@ class _SettingsPageState extends State<SettingsPage> {
                                                     "books you downloaded",
                                               ),
                                               SettingsItem(
-                                                onTap: () {},
+                                                onTap: () {
+                                                  _launchURL(Platform.isAndroid
+                                                      ? appconfigsController
+                                                          .appConfig
+                                                          .value!
+                                                          .androidSettings
+                                                          .subscriptionSettings
+                                                          .termOfUseUrl
+                                                      : appconfigsController
+                                                          .appConfig
+                                                          .value!
+                                                          .iosSettings
+                                                          .subscriptionSettings
+                                                          .termOfUseUrl);
+                                                },
                                                 icons: CupertinoIcons
                                                     .profile_circled,
                                                 iconStyle: IconStyle(
@@ -148,7 +236,21 @@ class _SettingsPageState extends State<SettingsPage> {
                                                     "Terms and Conditions while using TenaFirst Pharma",
                                               ),
                                               SettingsItem(
-                                                onTap: () {},
+                                                onTap: () {
+                                                  _launchURL(Platform.isAndroid
+                                                      ? appconfigsController
+                                                          .appConfig
+                                                          .value!
+                                                          .androidSettings
+                                                          .subscriptionSettings
+                                                          .privacyPolicyUrl
+                                                      : appconfigsController
+                                                          .appConfig
+                                                          .value!
+                                                          .iosSettings
+                                                          .subscriptionSettings
+                                                          .privacyPolicyUrl);
+                                                },
                                                 icons: Icons.privacy_tip,
                                                 iconStyle: IconStyle(
                                                   backgroundColor:
@@ -158,7 +260,13 @@ class _SettingsPageState extends State<SettingsPage> {
                                                 subtitle: "Privacy Policy",
                                               ),
                                               SettingsItem(
-                                                onTap: () {},
+                                                onTap: () {
+                                                  _pageController.animateToPage(
+                                                      0,
+                                                      duration: const Duration(
+                                                          milliseconds: 500),
+                                                      curve: Curves.ease);
+                                                },
                                                 icons: Icons.info_rounded,
                                                 iconStyle: IconStyle(
                                                   backgroundColor:
@@ -203,7 +311,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                               InkWell(
                                                 onTap: () {
                                                   _pageController.animateToPage(
-                                                      0,
+                                                      1,
                                                       duration: const Duration(
                                                           milliseconds: 500),
                                                       curve: Curves.ease);
@@ -247,7 +355,6 @@ class _SettingsPageState extends State<SettingsPage> {
                                                       imageUrl:
                                                           book.thumbnailUrl,
                                                     ),
-                                                    
                                                   ],
                                                 );
                                               }),
@@ -283,5 +390,11 @@ class _SettingsPageState extends State<SettingsPage> {
         ]),
       ),
     );
+  }
+
+  Future<void> _launchURL(String _url) async {
+    if (!await launchUrl(Uri.parse(_url))) {
+      throw Exception('Could not launch $_url');
+    }
   }
 }

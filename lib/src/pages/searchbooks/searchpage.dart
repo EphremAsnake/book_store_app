@@ -134,7 +134,7 @@ class _SearchPageState extends State<SearchPage> {
                                         searchController.text != "")
                                       Center(
                                         child: Text(
-                                          "Oops! We couldn't find any books matching your search for ${searchController.text}",
+                                          "Oops! We couldn't find any books matching your search for '${searchController.text}\'",
                                           style: TextStyle(
                                             fontSize: 16.sp,
                                             color: Colors.grey,

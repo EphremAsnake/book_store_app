@@ -1,16 +1,22 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:book_store/src/pages/bookdetails/bookdetails.dart';
 import 'package:book_store/src/utils/constants/colors.dart';
 import 'package:book_store/src/utils/constants/urls.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:resize/resize.dart';
 import 'package:skeleton_loader/skeleton_loader.dart';
 
+import '../../../controller/appconfigs.dart';
 import '../../../controller/downloadcontroller.dart';
 import '../../../services/apicalls.dart';
 import '../../../services/repos/functions.dart';
 import '../../../widgets/book.dart';
 import '../../searchbooks/searchpage.dart';
+import '../../subscription/IAPservices.dart';
 import 'component/silverappbar.dart';
 import 'logic.dart';
 
@@ -24,15 +30,53 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   final controller = Get.put(HomeLogic());
-
+  final configController = Get.put(AppConfigController());
   final storageController = Get.find<DownloadedBooksController>();
+  late StreamSubscription<List<PurchaseDetails>> _iapSubscription;
 
   @override
   void initState() {
     super.initState();
+
+    final Stream purchaseUpdated = InAppPurchase.instance.purchaseStream;
+
+    _iapSubscription = purchaseUpdated.listen((purchaseDetailsList) {
+      IAPService(
+              monthlyProductId: Platform.isAndroid
+                  ? configController.appConfig.value!.androidSettings!
+                      .subscriptionSettings!.monthSubscriptionId!
+                  : configController.appConfig.value!.iosSettings!
+                      .subscriptionSettings!.monthSubscriptionId!,
+              yearlyProductId: Platform.isAndroid
+                  ? configController.appConfig.value!.androidSettings!
+                      .subscriptionSettings!.yearSubscriptionId!
+                  : configController.appConfig.value!.iosSettings!
+                      .subscriptionSettings!.yearSubscriptionId!)
+          .listenToPurchaseUpdated(purchaseDetailsList);
+    }, onDone: () {
+      _iapSubscription.cancel();
+    }, onError: (error) {
+      _iapSubscription.cancel();
+    }) as StreamSubscription<List<PurchaseDetails>>;
+
+    //!Check Subscription Availability
+    IAPService(
+            monthlyProductId: Platform.isAndroid
+                ? configController.appConfig.value!.androidSettings!
+                    .subscriptionSettings!.monthSubscriptionId!
+                : configController.appConfig.value!.iosSettings!
+                    .subscriptionSettings!.monthSubscriptionId!,
+            yearlyProductId: Platform.isAndroid
+                ? configController.appConfig.value!.androidSettings!
+                    .subscriptionSettings!.yearSubscriptionId!
+                : configController.appConfig.value!.iosSettings!
+                    .subscriptionSettings!.yearSubscriptionId!)
+        .checkSubscriptionAvailabilty();
+
     controller.reference = this;
     storageController.loadDownloadedBooks();
     getMethod(context, ApiUrls.categories, getCategoriesList);
+
     // getMethod(context, ApiUrls.bookslist, getBooksList);
 
     //if (controller.allCategoriesList.isNotEmpty) {
@@ -44,6 +88,12 @@ class _HomePageState extends State<HomePage>
     //   }
     // });
     //}
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _iapSubscription.cancel();
   }
 
   @override
@@ -97,11 +147,17 @@ class _HomePageState extends State<HomePage>
                                               color: Colors.white,
                                               fontSize: 25.h,
                                               fontWeight: FontWeight.bold)),
+                                      Text('Subscribe to Unlock All books!',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 20.h,
+                                              fontWeight: FontWeight.bold)),
                                       SizedBox(
                                         height:
                                             MediaQuery.sizeOf(context).height *
                                                 0.02.h,
                                       ),
+
                                       Text('Search for your favorite books',
                                           style: TextStyle(
                                               color: Colors.grey,
@@ -226,7 +282,7 @@ class _HomePageState extends State<HomePage>
                                       children: [
                                         Padding(
                                             padding: const EdgeInsetsDirectional
-                                                .fromSTEB(20, 10, 10, 10),
+                                                .fromSTEB(20, 0, 10, 10),
                                             child: Container(
                                               height: 35,
                                               width: MediaQuery.of(context)
@@ -249,7 +305,6 @@ class _HomePageState extends State<HomePage>
                             children: List.generate(
                               controller.allCategoriesList.length,
                               (index) => GridView.count(
-                                
                                 crossAxisCount: 3,
                                 childAspectRatio: 0.5,
                                 mainAxisSpacing: 20,
@@ -257,7 +312,6 @@ class _HomePageState extends State<HomePage>
                                 padding: const EdgeInsets.only(
                                     left: 20, right: 20, bottom: 60, top: 10),
                                 children: List.generate(
-
                                   controller.filteredBooks.length,
                                   (itemIndex) => InkWell(
                                     //borderRadius: BorderRadius.circular(12.0),
