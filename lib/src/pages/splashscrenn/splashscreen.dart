@@ -14,7 +14,7 @@ class _SplashScreenState extends State<SplashScreen> {
     // TODO: implement initState
     super.initState();
      Future.delayed(const Duration(seconds: 4), () {
-      Get.offAllNamed('/homepage');
+      Get.offAllNamed('/navigationPage');
     });
   }
   @override

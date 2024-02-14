@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 
 import '../../models/categories.dart';
-import '../../pages/home/logic.dart';
+import '../../pages/navigations/home/logic.dart';
 import '../../utils/constants/strings.dart';
 import '../../utils/constants/urls.dart';
 import '../../widgets/customdialog.dart';

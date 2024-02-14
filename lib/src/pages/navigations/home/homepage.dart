@@ -1,0 +1,359 @@
+import 'package:book_store/src/pages/bookdetails/bookdetails.dart';
+import 'package:book_store/src/utils/constants/colors.dart';
+import 'package:book_store/src/utils/constants/urls.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:resize/resize.dart';
+import 'package:skeleton_loader/skeleton_loader.dart';
+
+import '../../../controller/bookdownload.dart';
+import '../../../services/apicalls.dart';
+import '../../../services/repos/functions.dart';
+import '../../../widgets/book.dart';
+import 'component/silverappbar.dart';
+import 'logic.dart';
+
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
+  final controller = Get.put(HomeLogic());
+
+  final storageController = Get.find<DownloadedBooksController>();
+
+  @override
+  void initState() {
+    super.initState();
+    controller.reference = this;
+    storageController.loadDownloadedBooks();
+    getMethod(context, ApiUrls.categories, getCategoriesList);
+    // getMethod(context, ApiUrls.bookslist, getBooksList);
+
+    //if (controller.allCategoriesList.isNotEmpty) {
+    // controller.tabController!.addListener(() {
+    //   if (controller.tabController!.indexIsChanging) {
+    //     String selectedCategory = controller
+    //         .allCategoriesList[controller.tabController!.index].text??'All';
+    //     controller.filterBooksByCategory(selectedCategory);
+    //   }
+    // });
+    //}
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    //final HomeLogic controller = Get.find();
+    return Obx(
+      () => PopScope(
+          canPop: false,
+          onPopInvoked: (didPop) {},
+          child: DefaultTabController(
+            length: controller.allCategoriesList.length,
+            child: Scaffold(
+                backgroundColor: Colors.white,
+                body: NestedScrollView(
+                    headerSliverBuilder:
+                        (BuildContext context, bool innerBoxIsScrolled) {
+                      return <Widget>[
+                        SliverAppBar(
+                          expandedHeight:
+                              MediaQuery.of(context).size.height * 0.35,
+                          backgroundColor: Colors.transparent,
+                          flexibleSpace: FlexibleSpaceBar(
+                            background: Container(
+                                decoration: const BoxDecoration(
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.only(
+                                        bottomRight: Radius.circular(50))),
+                                height:
+                                    MediaQuery.of(context).size.height * 0.35,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 20.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        height:
+                                            MediaQuery.sizeOf(context).height *
+                                                0.1.h,
+                                      ),
+                                      Text(
+                                        'The Best',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 25.h,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text('Books For You!',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 25.h,
+                                              fontWeight: FontWeight.bold)),
+                                      SizedBox(
+                                        height:
+                                            MediaQuery.sizeOf(context).height *
+                                                0.02.h,
+                                      ),
+                                      Text('Search for your favorite books',
+                                          style: TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 20.h,
+                                              fontWeight: FontWeight.w300)),
+                                      //!Search Field
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            right: 20.0, top: 20.h),
+                                        child: TextFormField(
+                                          onTap: () {
+                                            // Get.toNamed(
+                                            //     PageRoutes.searchConsultant);
+                                          },
+                                          readOnly: true,
+                                          decoration: InputDecoration(
+                                            contentPadding:
+                                                const EdgeInsetsDirectional
+                                                    .fromSTEB(0, 0, 0, 0),
+                                            prefixIcon: const Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Icon(
+                                                  Icons.search,
+                                                  color: Colors.red,
+                                                )
+                                              ],
+                                            ),
+                                            hintText: "Search here",
+                                            hintStyle: const TextStyle(
+                                                fontSize: 14,
+                                                color: Color(0xffA3A7AA)),
+                                            fillColor: Colors.white,
+                                            filled: true,
+                                            enabledBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                                borderSide: const BorderSide(
+                                                    color: Colors.transparent)),
+                                            border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                                borderSide: const BorderSide(
+                                                    color: Colors.transparent)),
+                                            focusedBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                                borderSide: const BorderSide(
+                                                    color: Colors.white)),
+                                            errorBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                                borderSide: const BorderSide(
+                                                    color: Colors.red)),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )),
+                          ),
+                        ),
+                        controller.allCategoriesList.isNotEmpty
+                            ? SliverPadding(
+                                padding: const EdgeInsets.only(
+                                  top: 10,
+                                ),
+                                sliver: SliverPersistentHeader(
+                                  delegate: SliverAppBarDelegate(TabBar(
+                                      physics: const BouncingScrollPhysics(),
+                                      indicator: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(
+                                              6), // Creates border
+                                          color: Colors.grey),
+                                      labelPadding: const EdgeInsets.symmetric(
+                                          horizontal: 20),
+                                      indicatorSize: TabBarIndicatorSize.tab,
+                                      padding:
+                                          const EdgeInsetsDirectional.fromSTEB(
+                                              20, 10, 10, 10),
+                                      automaticIndicatorColorAdjustment: true,
+                                      isScrollable: true,
+                                      onTap: (value) {
+                                        // debugPrint('da');
+                                        // controller.tabController!.addListener(() {
+                                        //   String selectedCategory = controller
+                                        //       .allCategoriesList[
+                                        //           controller.tabController!.index]
+                                        //       .text!;
+                                        //   controller.filterBooksByCategory(
+                                        //       selectedCategory);
+                                        // });
+                                        // debugPrint(controller
+                                        //     .allCategoriesList[
+                                        //         controller.tabController!.index]
+                                        //     .text!);
+                                      },
+                                      tabAlignment: TabAlignment.start,
+                                      controller: controller.tabController,
+                                      labelColor: Colors.white,
+                                      unselectedLabelColor: Colors.grey,
+                                      indicatorColor: Colors.transparent,
+                                      dividerColor: Colors.transparent,
+                                      tabs: controller.allCategoriesList)),
+                                  pinned: true,
+                                ),
+                              )
+                            : SliverToBoxAdapter(
+                                child: SkeletonLoader(
+                                    period: const Duration(seconds: 2),
+                                    highlightColor: Colors.grey,
+                                    direction: SkeletonDirection.ltr,
+                                    builder: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                            padding: const EdgeInsetsDirectional
+                                                .fromSTEB(20, 10, 10, 10),
+                                            child: Container(
+                                              height: 35,
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          8.r)),
+                                            )),
+                                      ],
+                                    ))),
+                      ];
+                    },
+                    body: !controller.allcategoriesLoader.value
+                        ? TabBarView(
+                            physics: const NeverScrollableScrollPhysics(),
+                            controller: controller.tabController,
+                            children: List.generate(
+                              controller.allCategoriesList.length,
+                              (index) => GridView.count(
+                                
+                                crossAxisCount: 3,
+                                childAspectRatio: 0.5,
+                                mainAxisSpacing: 20,
+                                crossAxisSpacing: 15,
+                                padding: const EdgeInsets.only(
+                                    left: 20, right: 20, bottom: 60, top: 10),
+                                children: List.generate(
+
+                                  controller.filteredBooks.length,
+                                  (itemIndex) => InkWell(
+                                    //borderRadius: BorderRadius.circular(12.0),
+                                    splashColor: Colors.grey,
+                                    onTap: () {
+                                      Get.to(BookDetails(
+                                          bookModel: controller
+                                              .filteredBooks[itemIndex]));
+                                    },
+                                    child: BookWidget(
+                                      bookModel:
+                                          controller.filteredBooks[itemIndex],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        : ListView(
+                            children: [
+                              SkeletonLoader(
+                                  period: const Duration(seconds: 2),
+                                  highlightColor: Colors.grey,
+                                  direction: SkeletonDirection.ltr,
+                                  builder: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      // Padding(
+                                      //     padding: EdgeInsetsDirectional.fromSTEB(
+                                      //         20, 10.h, 20, 0),
+                                      //     child: Container(
+                                      //       height: 45,
+                                      //       width:
+                                      //           MediaQuery.of(context).size.width,
+                                      //       decoration: BoxDecoration(
+                                      //           color: Colors.white,
+                                      //           borderRadius:
+                                      //               BorderRadius.circular(8.r)),
+                                      //     )),
+                                      // SizedBox(
+                                      //   height: 25.h,
+                                      // ),
+                                      SizedBox(
+                                        height: 630.h,
+                                        child: ListView.builder(
+                                            physics:
+                                                const NeverScrollableScrollPhysics(),
+                                            itemCount: 3,
+                                            itemBuilder: (context, index) {
+                                              return Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 10,
+                                                        vertical: 10),
+                                                    child: Container(
+                                                      height: 180.h,
+                                                      width: 150.w,
+                                                      decoration: BoxDecoration(
+                                                          color: AppColors
+                                                              .primaryColor,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(8)),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 10,
+                                                        vertical: 10),
+                                                    child: Container(
+                                                      height: 180.h,
+                                                      width: 150.w,
+                                                      decoration: BoxDecoration(
+                                                          color: AppColors
+                                                              .primaryColor,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(8)),
+                                                    ),
+                                                  ),
+                                                ],
+                                              );
+                                            }),
+                                      )
+                                    ],
+                                  )),
+                            ],
+                          ))),
+          )),
+    );
+  }
+}

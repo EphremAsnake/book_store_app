@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:resize/resize.dart';
 
@@ -30,7 +31,8 @@ class _BookWidgetState extends State<BookWidget> {
             child: Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: NetworkImage(widget.bookModel.thumbnailUrl),
+                  image:
+                      CachedNetworkImageProvider(widget.bookModel.thumbnailUrl),
                   fit: BoxFit.contain,
                 ),
                 //color: AppColors.primaryColor,

@@ -1,12 +1,16 @@
 import 'package:book_store/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:resize/resize.dart';
 
-import 'src/pages/home/logic.dart';
+import 'src/controller/bookdownload.dart';
+import 'src/pages/navigations/home/logic.dart';
 
-void main() {
+Future<void> main() async {
   Get.put(HomeLogic());
+  Get.put(DownloadedBooksController());
+  await GetStorage.init();
   runApp(const MyApp());
 }
 

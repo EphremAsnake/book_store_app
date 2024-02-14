@@ -2,6 +2,7 @@ class BookModel {
   final int id;
   final String name;
   final String thumbnailUrl;
+  final String pdfUrl;
   final String author;
   final String description;
   final String publisher;
@@ -16,6 +17,7 @@ class BookModel {
     required this.id,
     required this.name,
     required this.thumbnailUrl,
+    required this.pdfUrl,
     required this.author,
     required this.description,
     required this.publisher,
@@ -34,6 +36,7 @@ class BookModel {
         id: 0,
         name: '',
         thumbnailUrl: '',
+        pdfUrl: '',
         author: '',
         description: '',
         publisher: '',
@@ -49,6 +52,7 @@ class BookModel {
       id: json['id'] ?? 0,
       name: json['name'] ?? '',
       thumbnailUrl: json['thumbnailUrl'] ?? '',
+      pdfUrl: json['pdfUrl'] ?? '',
       author: json['author'] ?? '',
       description: json['description'] ?? '',
       publisher: json['publisher'] ?? '',
@@ -71,6 +75,7 @@ class BookModel {
       'id': id,
       'name': name,
       'thumbnailUrl': thumbnailUrl,
+      'pdfUrl': pdfUrl,
       'author': author,
       'description': description,
       'publisher': publisher,

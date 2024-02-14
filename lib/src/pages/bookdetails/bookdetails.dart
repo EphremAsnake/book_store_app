@@ -6,7 +6,8 @@ import 'package:resize/resize.dart';
 
 import '../../widgets/book.dart';
 import '../../widgets/bottomButton.dart';
-import '../home/logic.dart';
+import '../../widgets/downloadbutton.dart';
+import '../navigations/home/logic.dart';
 import '../purchase/subscription.dart';
 
 class BookDetails extends StatefulWidget {
@@ -105,7 +106,27 @@ class _BookDetailsState extends State<BookDetails> {
                                       style: TextStyle(
                                           fontWeight: FontWeight.normal,
                                           fontSize: 16.sp),
-                                    )
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    widget.bookModel.locked
+                                        ? const SizedBox()
+                                        : Row(
+                                            children: [
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    2.5,
+                                                child: DownloadButton(
+                                                  title: 'Download',
+                                                  disable: false,
+                                                  bookModel: widget.bookModel,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                   ],
                                 ),
                               ],
