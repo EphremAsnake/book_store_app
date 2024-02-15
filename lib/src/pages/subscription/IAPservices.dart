@@ -73,6 +73,7 @@ class IAPService {
 
   Future<void> updateSubscriptionStatus(bool isMonthly, bool isYearly) async {
     await subscriptionStatus.saveSubscriptionStatus(isMonthly, isYearly);
+    //subscriptionStatus.update();
   }
 
   Future<void> _handleSuccessfulPurchase(PurchaseDetails purchaseDetails,
@@ -180,7 +181,7 @@ class IAPService {
   Future<void> checkSubscriptionAvailabilty(
       [Duration monthduration = const Duration(minutes: 5),
       Duration yearduration = const Duration(minutes: 10),
-      Duration grace = const Duration(minutes: 0)]) async {
+      Duration grace = const Duration(days: 0)]) async {
     if (Platform.isIOS) {
       List<PurchaseDetails> allPurchases = [];
 

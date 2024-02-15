@@ -319,7 +319,7 @@ class _BookDetailsState extends State<BookDetails> {
                             splashColor: Colors.green,
                             onTap: () async {
                               Get.to(SubscriptionPage(
-                                bookModel: widget.bookModel,
+                                //bookModel: widget.bookModel,
                               ));
                             },
                             child: const MyCustomBottomBar(

@@ -8,13 +8,15 @@ class DownloadedBook {
   final String name;
   final String thumbnailUrl;
   final String author;
+  final bool status;
 
   DownloadedBook(
       {required this.id,
       required this.path,
       required this.name,
       required this.thumbnailUrl,
-      required this.author});
+      required this.author,
+      required this.status});
 }
 
 class DownloadedBooksController extends GetxController {
@@ -37,7 +39,8 @@ class DownloadedBooksController extends GetxController {
               path: book['path'],
               name: book['name'],
               thumbnailUrl: book['thumbnailUrl'],
-              author: book['author']))
+              author: book['author'],
+              status: book['status']))
           .toList();
       debugPrint('saved books length ${downloadedBooks.length}');
     } else {
@@ -54,7 +57,8 @@ class DownloadedBooksController extends GetxController {
                   'path': book.path,
                   'name': book.name,
                   'thumbnailUrl': book.thumbnailUrl,
-                  'author': book.author
+                  'author': book.author,
+                  'status': book.status
                 })
             .toList());
   }
@@ -87,15 +91,16 @@ class DownloadedBooksController extends GetxController {
     return downloadedBooks.toList();
   }
 
-  void addDownloadedBook(
-      String id, String path, String name, String thumbnailUrl, String author) {
+  void addDownloadedBook(String id, String path, String name,
+      String thumbnailUrl, String author, bool status) {
     if (!isBookDownloaded(id)) {
       downloadedBooks.add(DownloadedBook(
           id: id,
           path: path,
           name: name,
           thumbnailUrl: thumbnailUrl,
-          author: author));
+          author: author,
+          status: status));
       _saveDownloadedBooks();
     } else {
       debugPrint('Book with ID $id is already downloaded.');

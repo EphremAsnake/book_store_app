@@ -22,6 +22,7 @@ getCategoriesList(
         (response).map((item) => CategoryModel.fromJson(item)).toList();
     // homeController.categories.value =
     //     parsedCategories.map((e) => e.name!).toList();
+    homeController.allCategoriesList.clear();
     for (var element in parsedCategories) {
       homeController.allCategoriesList.add(Tab(text: element.name!));
     }
@@ -75,6 +76,7 @@ getBooksList(BuildContext context, bool responseCheck, List<dynamic> response) {
   if (responseCheck) {
     // final parsedCategories =
     //     (response).map((item) => BookModel.fromJson(item)).toList();
+    homeController.allBooks.clear();
     homeController.allBooks =
         response.map((json) => BookModel.fromJson(json)).toList();
     homeController.filteredBooks.value = homeController.allBooks;

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:book_store/src/pages/subscription/subscription.dart';
 import 'package:book_store/src/utils/constants/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ import '../../../controller/appconfigs.dart';
 import '../../../controller/downloadcontroller.dart';
 import '../../../widgets/downloadeditem.dart';
 import '../../../widgets/downloadsgroup.dart';
+import '../../subscription/components/status.dart';
 import '../../view/pdfview.dart';
 import 'components/babstrap_settings_screen.dart';
 
@@ -25,6 +27,7 @@ class _SettingsPageState extends State<SettingsPage> {
   late List<DownloadedBook> downloadedBooks;
   final bookDownloaderController = Get.put(DownloadedBooksController());
   final appconfigsController = Get.put(AppConfigController());
+  final SubscriptionStatus subscriptionStatus = Get.put(SubscriptionStatus());
 
   @override
   void initState() {
@@ -146,17 +149,19 @@ class _SettingsPageState extends State<SettingsPage> {
                                             height: 20,
                                           ),
                                           Text(
-                                            Platform.isAndroid? appconfigsController
-                                                    .appConfig
-                                                    .value
-                                                    ?.androidSettings
-                                                    .aboutApp ??
-                                                'Loading...':appconfigsController
-                                                    .appConfig
-                                                    .value
-                                                    ?.iosSettings
-                                                    .aboutApp ??
-                                                'Loading...',
+                                            Platform.isAndroid
+                                                ? appconfigsController
+                                                        .appConfig
+                                                        .value
+                                                        ?.androidSettings
+                                                        .aboutApp ??
+                                                    'Loading...'
+                                                : appconfigsController
+                                                        .appConfig
+                                                        .value
+                                                        ?.iosSettings
+                                                        .aboutApp ??
+                                                    'Loading...',
                                           ),
                                           const SizedBox(
                                             height: 50,
@@ -183,16 +188,6 @@ class _SettingsPageState extends State<SettingsPage> {
                                           SettingsGroup(
                                             items: [
                                               SettingsItem(
-                                                onTap: () {},
-                                                icons:
-                                                    CupertinoIcons.heart_fill,
-                                                iconStyle: IconStyle(
-                                                    backgroundColor:
-                                                        Colors.pink),
-                                                title: 'Favorites',
-                                                subtitle: "Your Favorite Books",
-                                              ),
-                                              SettingsItem(
                                                 onTap: () {
                                                   _pageController.animateToPage(
                                                       2,
@@ -208,6 +203,18 @@ class _SettingsPageState extends State<SettingsPage> {
                                                 title: 'Downloads',
                                                 subtitle:
                                                     "books you downloaded",
+                                              ),
+                                              SettingsItem(
+                                                onTap: () {
+                                                  Get.to(SubscriptionPage());
+                                                },
+                                                icons:
+                                                    CupertinoIcons.money_dollar,
+                                                iconStyle: IconStyle(
+                                                    backgroundColor:
+                                                        Colors.pink),
+                                                title: 'Subscription',
+                                                subtitle: "subscription page",
                                               ),
                                               SettingsItem(
                                                 onTap: () {
@@ -341,22 +348,30 @@ class _SettingsPageState extends State<SettingsPage> {
                                               itemBuilder: (context, index) {
                                                 DownloadedBook book =
                                                     downloadedBooks[index];
-                                                return DownloadsGroup(
-                                                  items: [
-                                                    DownloadedItem(
-                                                      onTap: () {
-                                                        Get.to(BookView(
-                                                            filepath: book.path,
-                                                            booktitle:
-                                                                book.name));
-                                                      },
-                                                      title: book.name,
-                                                      author: book.author,
-                                                      imageUrl:
-                                                          book.thumbnailUrl,
-                                                    ),
-                                                  ],
-                                                );
+                                                return !downloadedBooks[index]
+                                                            .status ||
+                                                        subscriptionStatus
+                                                            .isMonthly.value ||
+                                                        subscriptionStatus
+                                                            .isYearly.value
+                                                    ? DownloadsGroup(
+                                                        items: [
+                                                          DownloadedItem(
+                                                            onTap: () {
+                                                              Get.to(BookView(
+                                                                  filepath:
+                                                                      book.path,
+                                                                  booktitle: book
+                                                                      .name));
+                                                            },
+                                                            title: book.name,
+                                                            author: book.author,
+                                                            imageUrl: book
+                                                                .thumbnailUrl,
+                                                          ),
+                                                        ],
+                                                      )
+                                                    : const SizedBox();
                                               }),
                                           // DownloadsGroup(
                                           //   items: [

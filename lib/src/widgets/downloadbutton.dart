@@ -39,6 +39,7 @@ class DownloadButtonState extends State<DownloadButton>
   final circularBgColor = Colors.white;
   final circularColor = Colors.green;
   late final DownloadedBooksController controller;
+
   @override
   void initState() {
     super.initState();
@@ -104,7 +105,8 @@ class DownloadButtonState extends State<DownloadButton>
                       result,
                       widget.bookModel.name,
                       widget.bookModel.thumbnailUrl,
-                      widget.bookModel.author);
+                      widget.bookModel.author,
+                      widget.bookModel.locked);
                 }
               });
       },
