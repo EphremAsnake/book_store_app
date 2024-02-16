@@ -185,24 +185,91 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                                       borderRadius: BorderRadius.circular(10),
                                       splashColor: Colors.green,
                                       onTap: () async {
-                                        subscriptionController.showProgress();
-                                        late PurchaseParam purchaseParam;
-                                        if (Platform.isAndroid) {
-                                          purchaseParam =
-                                              GooglePlayPurchaseParam(
-                                                  productDetails:
-                                                      _products[index],
-                                                  changeSubscriptionParam:
-                                                      null);
+                                        if (subscriptionStatus
+                                            .isMonthly.value) {
+                                          Get.snackbar(
+                                            '',
+                                            '',
+                                            snackPosition: SnackPosition.BOTTOM,
+                                            backgroundColor:
+                                                AppColors.primarycolor2,
+                                            colorText: Colors.white,
+                                            duration:
+                                                const Duration(seconds: 2),
+                                            isDismissible: true,
+                                            titleText: const Text(
+                                              LanguageConstant.failed,
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontFamily: 'Customfont',
+                                                fontSize: 16.0,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            maxWidth: 400,
+                                            messageText: const Text(
+                                              LanguageConstant
+                                                  .alreadysubscribedtomonthlysubscription,
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontSize: 16.0,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          );
+                                        } else if (subscriptionStatus
+                                            .isYearly.value) {
+                                          Get.snackbar(
+                                            '',
+                                            '',
+                                            snackPosition: SnackPosition.BOTTOM,
+                                            backgroundColor:
+                                                AppColors.primarycolor2,
+                                            colorText: Colors.white,
+                                            duration:
+                                                const Duration(seconds: 2),
+                                            isDismissible: true,
+                                            titleText: const Text(
+                                              LanguageConstant.failed,
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontFamily: 'Customfont',
+                                                fontSize: 16.0,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            maxWidth: 400,
+                                            messageText: const Text(
+                                              LanguageConstant
+                                                  .alreadysubscribedtoyearlysubscription,
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontSize: 16.0,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          );
                                         } else {
-                                          purchaseParam = PurchaseParam(
-                                            productDetails: _products[index],
+                                          subscriptionController.showProgress();
+                                          late PurchaseParam purchaseParam;
+                                          if (Platform.isAndroid) {
+                                            purchaseParam =
+                                                GooglePlayPurchaseParam(
+                                                    productDetails:
+                                                        _products[index],
+                                                    changeSubscriptionParam:
+                                                        null);
+                                          } else {
+                                            purchaseParam = PurchaseParam(
+                                              productDetails: _products[index],
+                                            );
+                                          }
+
+                                          InAppPurchase.instance
+                                              .buyNonConsumable(
+                                            purchaseParam: purchaseParam,
                                           );
                                         }
-
-                                        InAppPurchase.instance.buyNonConsumable(
-                                          purchaseParam: purchaseParam,
-                                        );
                                       },
                                       child: SubscriptionButton(
                                         title: _products[index].id ==
@@ -229,7 +296,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                           const SizedBox(
                             height: 20,
                           ),
-                          
+
                           const SizedBox(
                             height: 10,
                           ),
@@ -240,7 +307,9 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                               TextButton(
                                 child: const Text(
                                   'Restore Purchase',
-                                  style: TextStyle(color: AppColors.primarycolor2,),
+                                  style: TextStyle(
+                                    color: AppColors.primarycolor2,
+                                  ),
                                 ),
                                 onPressed: () {},
                               )
@@ -267,14 +336,18 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                               TextButton(
                                 child: const Text(
                                   'Privacy Policy',
-                                  style: TextStyle(color: AppColors.primarycolor2,),
+                                  style: TextStyle(
+                                    color: AppColors.primarycolor2,
+                                  ),
                                 ),
                                 onPressed: () {},
                               ),
                               TextButton(
                                 child: const Text(
                                   'Terms of Service',
-                                  style: TextStyle(color: AppColors.primarycolor2,),
+                                  style: TextStyle(
+                                    color: AppColors.primarycolor2,
+                                  ),
                                 ),
                                 onPressed: () {},
                               ),

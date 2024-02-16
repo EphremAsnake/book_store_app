@@ -31,8 +31,8 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    super.initState();
     restorepurchase();
+    super.initState();
   }
 
   @override

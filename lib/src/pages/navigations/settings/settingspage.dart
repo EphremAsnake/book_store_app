@@ -60,12 +60,11 @@ class _SettingsPageState extends State<SettingsPage> {
                       left: 0,
                       right: 0,
                       child: Container(
-                        height: MediaQuery.of(context).size.height * 0.15,
+                        height: MediaQuery.of(context).size.height * 0.1,
                         width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                             color: AppColors.primarycolor2,
-                            borderRadius: const BorderRadius.only(
-                                bottomRight: Radius.circular(50))
+                            
                             // image: const DecorationImage(
                             //     alignment: Alignment.topCenter,
                             //     fit: BoxFit.cover,
@@ -77,7 +76,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           child: Padding(
                             padding: EdgeInsets.only(
                                 bottom:
-                                    MediaQuery.of(context).size.height * 0.08),
+                                    MediaQuery.of(context).size.height * 0.02),
                             child: SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.1,
@@ -97,7 +96,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         // ),
                       )),
                   Positioned(
-                      top: MediaQuery.of(context).size.height * 0.15,
+                      top: MediaQuery.of(context).size.height * 0.12,
                       left: 0,
                       right: 0,
                       child: SizedBox(

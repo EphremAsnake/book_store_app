@@ -27,6 +27,7 @@ class IAPService {
 
         //!Handle Restore
       } else if (purchaseDetails.status == PurchaseStatus.restored) {
+        print('restore');
         _handleSuccessfulPurchase(purchaseDetails, isrestorepurchase: true);
 
         //!Handle Cancel

@@ -6,6 +6,10 @@ class LanguageConstant {
   static const String appName = 'ebookapp';
   static const String unableToCompletePurchaseMessage =
       "Unable to complete subscription purchase. Check your internet or payment details";
+  static const String alreadysubscribedtomonthlysubscription =
+      "You are already Subscribed to monthly subscription";
+  static const String alreadysubscribedtoyearlysubscription =
+      "You are already Subscribed to Yearly subscription";
 
   static const String youareSubscribedtoMonthlypackage =
       "⭐ You are subscribed to \nmonthly package";

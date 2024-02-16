@@ -120,15 +120,14 @@ class DownloadButtonState extends State<DownloadButton>
             decoration: BoxDecoration(
                 //color: AppColors.primaryColor,
                 gradient: const LinearGradient(colors: [
-                  AppColors.primarycolor2,
-                  AppColors.secondarycolor,
-                  AppColors.thcolor
-                ]),
+                  Colors.white,
+                  Colors.white,
+                  AppColors.primarycolor2                ]),
                 borderRadius: BorderRadius.circular(10),
                 boxShadow: [
                   BoxShadow(
-                      color: Colors.white.withOpacity(0.7),
-                      spreadRadius: -18,
+                      color: Colors.white.withOpacity(0.5),
+                      spreadRadius: -23,
                       blurRadius: 30,
                       offset: const Offset(30, 0))
                 ]),
@@ -151,7 +150,7 @@ class DownloadButtonState extends State<DownloadButton>
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16.sp,
-                                        color: Colors.white),
+                                        color: AppColors.primarycolor2),
                                   )
                                 : _isDownloading
                                     ? AnimatedBuilder(
@@ -188,7 +187,7 @@ class DownloadButtonState extends State<DownloadButton>
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 16.sp,
-                                            color: Colors.white),
+                                            color: AppColors.primarycolor2),
                                       ),
                             // GestureDetector(
                             //     onTap: _onDownloadPressed,

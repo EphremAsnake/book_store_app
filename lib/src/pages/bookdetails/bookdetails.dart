@@ -1,9 +1,15 @@
+import 'dart:ffi';
+import 'dart:io';
+
 import 'package:book_store/src/models/book.dart';
 import 'package:book_store/src/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:resize/resize.dart';
+import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 
+import '../../controller/appconfigs.dart';
 import '../../widgets/book.dart';
 import '../../widgets/bottomButton.dart';
 import '../../widgets/downloadbutton.dart';
@@ -21,9 +27,56 @@ class BookDetails extends StatefulWidget {
 
 class _BookDetailsState extends State<BookDetails> {
   final controller = Get.put(HomeLogic());
+  final appconfigsController = Get.put(AppConfigController());
+  final InAppPurchase _inAppPurchase = InAppPurchase.instance;
+  List<ProductDetails> _products = [];
+  late List<String> _productIds;
+  bool gotproducts = false;
+  String monthlySubscriptionID = '';
+
+  Future<void> initStoreInfo() async {
+    await _inAppPurchase.isAvailable();
+
+    ProductDetailsResponse productDetailsResponse =
+        await _inAppPurchase.queryProductDetails(_productIds.toSet());
+
+    setState(() {
+      _products = productDetailsResponse.productDetails;
+      gotproducts = true;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (Platform.isAndroid) {
+      monthlySubscriptionID = appconfigsController.appConfig.value!
+          .androidSettings.subscriptionSettings.monthSubscriptionId;
+    } else if (Platform.isIOS) {
+      monthlySubscriptionID = appconfigsController.appConfig.value!.iosSettings
+          .subscriptionSettings.monthSubscriptionId;
+    }
+
+    _productIds = [monthlySubscriptionID];
+
+    initStoreInfo();
+  }
 
   @override
   Widget build(BuildContext context) {
+    String descriptiontext = widget.bookModel.description;
+    double heightSize = MediaQuery.of(context).size.height * 0.6;
+    int siz = descriptiontext.length;
+    double marginfromtop = MediaQuery.of(context).size.height * 0.35 + 10;
+    if (siz < 200) {
+      heightSize = MediaQuery.of(context).size.height * 0.45;
+      marginfromtop = MediaQuery.of(context).size.height * 0.20 + 10;
+    } else {
+      heightSize = MediaQuery.of(context).size.height * 0.6;
+      marginfromtop = MediaQuery.of(context).size.height * 0.35 + 10;
+    }
+
     return GetBuilder<SubscriptionStatus>(builder: (subscriptionStatus) {
       return Scaffold(
           backgroundColor: Colors.white,
@@ -43,11 +96,12 @@ class _BookDetailsState extends State<BookDetails> {
                   children: [
                     Container(
                       decoration: const BoxDecoration(
-                          color: AppColors.primarycolor2,
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(50),
-                          )),
-                      height: MediaQuery.of(context).size.height * 0.6,
+                        color: AppColors.primarycolor2,
+                        // borderRadius: BorderRadius.only(
+                        //   bottomLeft: Radius.circular(50),
+                        // )
+                      ),
+                      height: heightSize,
                     ),
                     Positioned(
                         top: 0,
@@ -55,8 +109,8 @@ class _BookDetailsState extends State<BookDetails> {
                         child: Container(
                           height: MediaQuery.of(context).size.height * 0.35,
                           width: MediaQuery.of(context).size.width * 0.7,
-                          decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.9),
+                          decoration: const BoxDecoration(
+                              color: Colors.transparent,
                               borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(50),
                               )),
@@ -69,7 +123,7 @@ class _BookDetailsState extends State<BookDetails> {
                               borderRadius: BorderRadius.vertical(
                                 bottom: Radius.circular(50),
                               )),
-                          height: MediaQuery.of(context).size.height * 0.6,
+                          height: heightSize,
                           child: Column(
                             children: [
                               SizedBox(
@@ -103,7 +157,7 @@ class _BookDetailsState extends State<BookDetails> {
                                         widget.bookModel.name,
                                         //'The Book Title Name',
                                         style: TextStyle(
-                                            color: AppColors.primarycolor2,
+                                            color: Colors.white,
                                             fontWeight: FontWeight.bold,
                                             fontSize: 17.sp),
                                       ),
@@ -113,7 +167,7 @@ class _BookDetailsState extends State<BookDetails> {
                                       Text(
                                         widget.bookModel.author,
                                         style: TextStyle(
-                                            color: AppColors.primarycolor2,
+                                            color: Colors.white,
                                             fontWeight: FontWeight.normal,
                                             fontSize: 16.sp),
                                       ),
@@ -175,13 +229,20 @@ class _BookDetailsState extends State<BookDetails> {
                                 height:
                                     MediaQuery.of(context).size.height * 0.15,
                                 child: SingleChildScrollView(
-                                  child: Text(
-                                    widget.bookModel.description,
-                                    softWrap: true,
-                                    style: TextStyle(
-                                      color: Colors.white.withOpacity(0.8),
-                                      fontSize: 15,
-                                    ),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        widget.bookModel.description,
+                                        softWrap: true,
+                                        style: TextStyle(
+                                          color: Colors.white.withOpacity(0.8),
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 100,
+                                      )
+                                    ],
                                   ),
                                 ),
                               ),
@@ -329,9 +390,27 @@ class _BookDetailsState extends State<BookDetails> {
                               borderRadius: BorderRadius.circular(5.r),
                               splashColor: Colors.green,
                               onTap: () async {
-                                Get.to(const SubscriptionPage(
-                                    //bookModel: widget.bookModel,
-                                    ));
+                                if (gotproducts) {
+                                  late PurchaseParam purchaseParam;
+                                  if (Platform.isAndroid) {
+                                    purchaseParam = GooglePlayPurchaseParam(
+                                        productDetails: _products[0],
+                                        changeSubscriptionParam: null);
+                                  } else {
+                                    purchaseParam = PurchaseParam(
+                                      productDetails: _products[0],
+                                    );
+                                  }
+
+                                  InAppPurchase.instance.buyNonConsumable(
+                                    purchaseParam: purchaseParam,
+                                  );
+                                } else {
+                                  initStoreInfo();
+                                }
+                                // Get.to(const SubscriptionPage(
+                                //     //bookModel: widget.bookModel,
+                                //     ));
                               },
                               child: const MyCustomBottomBar(
                                 title: 'Subscribe',

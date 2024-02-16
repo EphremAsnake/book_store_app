@@ -125,16 +125,15 @@ class _HomePageState extends State<HomePage>
                       return <Widget>[
                         SliverAppBar(
                           expandedHeight:
-                              MediaQuery.of(context).size.height * 0.15,
+                              MediaQuery.of(context).size.height * 0.1,
                           backgroundColor: Colors.transparent,
                           flexibleSpace: FlexibleSpaceBar(
                             background: Container(
                                 decoration: const BoxDecoration(
-                                    color: AppColors.primarycolor2,
-                                    borderRadius: BorderRadius.only(
-                                        bottomRight: Radius.circular(45))),
+                                  color: AppColors.primarycolor2,
+                                ),
                                 height:
-                                    MediaQuery.of(context).size.height * 0.15,
+                                    MediaQuery.of(context).size.height * 0.1,
                                 child: Padding(
                                   padding: const EdgeInsets.only(left: 20.0),
                                   child: Column(
@@ -142,8 +141,6 @@ class _HomePageState extends State<HomePage>
                                         CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      
-
                                       // Text('Search for your favorite books',
                                       //     style: TextStyle(
                                       //         color: Colors.grey,
@@ -151,8 +148,8 @@ class _HomePageState extends State<HomePage>
                                       //         fontWeight: FontWeight.w300)),
                                       //!Search Field
                                       Padding(
-                                        padding: EdgeInsets.only(
-                                            right: 20.0, top: 20.h),
+                                        padding: const EdgeInsets.only(
+                                            right: 20.0, top: 10),
                                         child: TextFormField(
                                           onTap: () {
                                             Get.to(const SearchPage());
@@ -268,7 +265,7 @@ class _HomePageState extends State<HomePage>
                                       children: [
                                         Padding(
                                             padding: const EdgeInsetsDirectional
-                                                .fromSTEB(20, 0, 10, 10),
+                                                .fromSTEB(20, 15, 10, 10),
                                             child: Container(
                                               height: 35,
                                               width: MediaQuery.of(context)
