@@ -118,7 +118,12 @@ class DownloadButtonState extends State<DownloadButton>
             height: 55.h,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
-                color: AppColors.primaryColor,
+                //color: AppColors.primaryColor,
+                gradient: const LinearGradient(colors: [
+                  AppColors.primarycolor2,
+                  AppColors.secondarycolor,
+                  AppColors.thcolor
+                ]),
                 borderRadius: BorderRadius.circular(10),
                 boxShadow: [
                   BoxShadow(

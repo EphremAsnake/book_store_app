@@ -44,365 +44,397 @@ class _SettingsPageState extends State<SettingsPage> {
         _pageController.animateToPage(1,
             duration: const Duration(milliseconds: 500), curve: Curves.ease);
       },
-      child: SingleChildScrollView(
-        child: Column(children: [
-          SizedBox(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              child: Stack(children: [
-                Positioned(
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    child: Container(
-                      height: MediaQuery.of(context).size.height * 0.3,
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        color: AppColors.primaryColor,
-                        // image: const DecorationImage(
-                        //     alignment: Alignment.topCenter,
-                        //     fit: BoxFit.cover,
-                        //     image: AssetImage(
-                        //       'assets/images/back2.jpg',
-                        //     ))
-                      ),
-                      child: Center(
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              bottom:
-                                  MediaQuery.of(context).size.height * 0.08),
-                          child: SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.1,
-                              child:
-                                  Image.asset("assets/images/splashlogo.png")),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          notificationPredicate: (_) => false,
+          backgroundColor: AppColors.primarycolor2),
+        body: SingleChildScrollView(
+          child: Column(children: [
+            SizedBox(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: Stack(children: [
+                  Positioned(
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.15,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            color: AppColors.primarycolor2,
+                            borderRadius: const BorderRadius.only(
+                                bottomRight: Radius.circular(50))
+                            // image: const DecorationImage(
+                            //     alignment: Alignment.topCenter,
+                            //     fit: BoxFit.cover,
+                            //     image: AssetImage(
+                            //       'assets/images/back2.jpg',
+                            //     ))
+                            ),
+                        child: Center(
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                bottom:
+                                    MediaQuery.of(context).size.height * 0.08),
+                            child: SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.1,
+                                child: Image.asset(
+                                    "assets/images/splashlogo.png")),
+                          ),
                         ),
-                      ),
-                      // child: Padding(
-                      //   padding: EdgeInsets.only(top: 0),
-                      //   child: SmallUserCard(
-                      //       cardColor: AppColors.primaryColor.withOpacity(0.8),
-                      //       userName: "User Name",
-                      //       userProfilePic:
-                      //           const AssetImage("assets/images/splash_logo.png"),
-                      //       onTap: () {}),
+                        // child: Padding(
+                        //   padding: EdgeInsets.only(top: 0),
+                        //   child: SmallUserCard(
+                        //       cardColor: AppColors.primaryColor.withOpacity(0.8),
+                        //       userName: "User Name",
+                        //       userProfilePic:
+                        //           const AssetImage("assets/images/splash_logo.png"),
+                        //       onTap: () {}),
 
-                      // ),
-                    )),
-                Positioned(
-                    top: MediaQuery.of(context).size.height * 0.2,
-                    left: 0,
-                    right: 0,
-                    child: SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.7,
-                        child: PageView(
-                          controller: _pageController,
-                          physics: const NeverScrollableScrollPhysics(),
-                          children: [
-                            Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.7,
-                                width: MediaQuery.of(context).size.width,
-                                decoration: const BoxDecoration(
+                        // ),
+                      )),
+                  Positioned(
+                      top: MediaQuery.of(context).size.height * 0.15,
+                      left: 0,
+                      right: 0,
+                      child: SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.85,
+                          child: PageView(
+                            controller: _pageController,
+                            physics: const NeverScrollableScrollPhysics(),
+                            children: [
+                              Container(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.85,
+                                  width: MediaQuery.of(context).size.width,
+                                  decoration: const BoxDecoration(
                                     color: Colors.white,
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(50))),
-                                child: Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 20.h),
-                                    child: Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          10, 0, 10, 10),
-                                      child: ListView(
-                                        physics: const BouncingScrollPhysics(),
-                                        children: [
-                                          Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              InkWell(
-                                                onTap: () {
-                                                  _pageController.animateToPage(
-                                                      1,
-                                                      duration: const Duration(
-                                                          milliseconds: 500),
-                                                      curve: Curves.ease);
-                                                },
-                                                child: const Icon(
-                                                  Icons.arrow_back,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                              Text(
-                                                'About',
-                                                style: TextStyle(
-                                                    fontSize: 18.sp,
+                                    // borderRadius: BorderRadius.only(
+                                    //     topLeft: Radius.circular(50))
+                                  ),
+                                  child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 20.h),
+                                      child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            10, 20, 10, 10),
+                                        child: ListView(
+                                          physics:
+                                              const BouncingScrollPhysics(),
+                                          children: [
+                                            Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                InkWell(
+                                                  onTap: () {
+                                                    _pageController
+                                                        .animateToPage(1,
+                                                            duration:
+                                                                const Duration(
+                                                                    milliseconds:
+                                                                        500),
+                                                            curve: Curves.ease);
+                                                  },
+                                                  child: const Icon(
+                                                    Icons.arrow_back,
                                                     color: Colors.black,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              const SizedBox()
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 20,
-                                          ),
-                                          Text(
-                                            Platform.isAndroid
-                                                ? appconfigsController
-                                                        .appConfig
-                                                        .value
-                                                        ?.androidSettings
-                                                        .aboutApp ??
-                                                    'Loading...'
-                                                : appconfigsController
-                                                        .appConfig
-                                                        .value
-                                                        ?.iosSettings
-                                                        .aboutApp ??
-                                                    'Loading...',
-                                          ),
-                                          const SizedBox(
-                                            height: 50,
-                                          )
-                                        ],
-                                      ),
-                                    ))),
-                            Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.7,
-                                width: MediaQuery.of(context).size.width,
-                                decoration: const BoxDecoration(
+                                                  ),
+                                                ),
+                                                Text(
+                                                  'About',
+                                                  style: TextStyle(
+                                                      fontSize: 18.sp,
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                const SizedBox()
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 20,
+                                            ),
+                                            Text(
+                                              Platform.isAndroid
+                                                  ? appconfigsController
+                                                          .appConfig
+                                                          .value
+                                                          ?.androidSettings
+                                                          .aboutApp ??
+                                                      'Loading...'
+                                                  : appconfigsController
+                                                          .appConfig
+                                                          .value
+                                                          ?.iosSettings
+                                                          .aboutApp ??
+                                                      'Loading...',
+                                            ),
+                                            const SizedBox(
+                                              height: 50,
+                                            )
+                                          ],
+                                        ),
+                                      ))),
+                              Container(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.85,
+                                  width: MediaQuery.of(context).size.width,
+                                  decoration: const BoxDecoration(
                                     color: Colors.white,
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(50))),
-                                child: Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 20.h),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10),
-                                      child: ListView(
-                                        physics: const BouncingScrollPhysics(),
-                                        children: [
-                                          SettingsGroup(
-                                            items: [
-                                              SettingsItem(
-                                                onTap: () {
-                                                  _pageController.animateToPage(
-                                                      2,
-                                                      duration: const Duration(
-                                                          milliseconds: 500),
-                                                      curve: Curves.ease);
-                                                },
-                                                icons: Icons
-                                                    .file_download_outlined,
-                                                iconStyle: IconStyle(
-                                                  backgroundColor: Colors.green,
-                                                ),
-                                                title: 'Downloads',
-                                                subtitle:
-                                                    "books you downloaded",
-                                              ),
-                                              SettingsItem(
-                                                onTap: () {
-                                                  Get.to(SubscriptionPage());
-                                                },
-                                                icons:
-                                                    CupertinoIcons.money_dollar,
-                                                iconStyle: IconStyle(
+                                    // borderRadius: BorderRadius.only(
+                                    //     topRight: Radius.circular(0))
+                                  ),
+                                  child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 20.h),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10),
+                                        child: ListView(
+                                          physics:
+                                              const BouncingScrollPhysics(),
+                                          children: [
+                                            SettingsGroup(
+                                              items: [
+                                                SettingsItem(
+                                                  onTap: () {
+                                                    _pageController
+                                                        .animateToPage(2,
+                                                            duration:
+                                                                const Duration(
+                                                                    milliseconds:
+                                                                        500),
+                                                            curve: Curves.ease);
+                                                  },
+                                                  icons: Icons
+                                                      .file_download_outlined,
+                                                  iconStyle: IconStyle(
                                                     backgroundColor:
-                                                        Colors.pink),
-                                                title: 'Subscription',
-                                                subtitle: "subscription page",
-                                              ),
-                                              SettingsItem(
-                                                onTap: () {
-                                                  _launchURL(Platform.isAndroid
-                                                      ? appconfigsController
-                                                          .appConfig
-                                                          .value!
-                                                          .androidSettings
-                                                          .subscriptionSettings
-                                                          .termOfUseUrl
-                                                      : appconfigsController
-                                                          .appConfig
-                                                          .value!
-                                                          .iosSettings
-                                                          .subscriptionSettings
-                                                          .termOfUseUrl);
-                                                },
-                                                icons: CupertinoIcons
-                                                    .profile_circled,
-                                                iconStyle: IconStyle(
+                                                        Colors.green,
+                                                  ),
+                                                  title: 'Downloads',
+                                                  subtitle:
+                                                      "books you downloaded",
+                                                ),
+                                                SettingsItem(
+                                                  onTap: () {
+                                                    Get.to(
+                                                        const SubscriptionPage());
+                                                  },
+                                                  icons: CupertinoIcons
+                                                      .money_dollar,
+                                                  iconStyle: IconStyle(
+                                                      backgroundColor:
+                                                          Colors.pink),
+                                                  title: 'Subscription',
+                                                  subtitle: "subscription page",
+                                                ),
+                                                SettingsItem(
+                                                  onTap: () {
+                                                    _launchURL(Platform
+                                                            .isAndroid
+                                                        ? appconfigsController
+                                                            .appConfig
+                                                            .value!
+                                                            .androidSettings
+                                                            .subscriptionSettings
+                                                            .termOfUseUrl
+                                                        : appconfigsController
+                                                            .appConfig
+                                                            .value!
+                                                            .iosSettings
+                                                            .subscriptionSettings
+                                                            .termOfUseUrl);
+                                                  },
+                                                  icons: CupertinoIcons
+                                                      .profile_circled,
+                                                  iconStyle: IconStyle(
+                                                      backgroundColor:
+                                                          Colors.orange),
+                                                  title: 'Terms and Conditions',
+                                                  subtitleMaxLine: 1,
+                                                  subtitle:
+                                                      "Terms and Conditions while using TenaFirst Pharma",
+                                                ),
+                                                SettingsItem(
+                                                  onTap: () {
+                                                    _launchURL(Platform
+                                                            .isAndroid
+                                                        ? appconfigsController
+                                                            .appConfig
+                                                            .value!
+                                                            .androidSettings
+                                                            .subscriptionSettings
+                                                            .privacyPolicyUrl
+                                                        : appconfigsController
+                                                            .appConfig
+                                                            .value!
+                                                            .iosSettings
+                                                            .subscriptionSettings
+                                                            .privacyPolicyUrl);
+                                                  },
+                                                  icons: Icons.privacy_tip,
+                                                  iconStyle: IconStyle(
                                                     backgroundColor:
-                                                        Colors.orange),
-                                                title: 'Terms and Conditions',
-                                                subtitleMaxLine: 1,
-                                                subtitle:
-                                                    "Terms and Conditions while using TenaFirst Pharma",
-                                              ),
-                                              SettingsItem(
-                                                onTap: () {
-                                                  _launchURL(Platform.isAndroid
-                                                      ? appconfigsController
-                                                          .appConfig
-                                                          .value!
-                                                          .androidSettings
-                                                          .subscriptionSettings
-                                                          .privacyPolicyUrl
-                                                      : appconfigsController
-                                                          .appConfig
-                                                          .value!
-                                                          .iosSettings
-                                                          .subscriptionSettings
-                                                          .privacyPolicyUrl);
-                                                },
-                                                icons: Icons.privacy_tip,
-                                                iconStyle: IconStyle(
-                                                  backgroundColor:
-                                                      Colors.purple,
+                                                        Colors.purple,
+                                                  ),
+                                                  title: 'Privacy Policy',
+                                                  subtitle: "Privacy Policy",
                                                 ),
-                                                title: 'Privacy Policy',
-                                                subtitle: "Privacy Policy",
-                                              ),
-                                              SettingsItem(
-                                                onTap: () {
-                                                  _pageController.animateToPage(
-                                                      0,
-                                                      duration: const Duration(
-                                                          milliseconds: 500),
-                                                      curve: Curves.ease);
-                                                },
-                                                icons: Icons.info_rounded,
-                                                iconStyle: IconStyle(
-                                                  backgroundColor:
-                                                      Colors.blueGrey,
+                                                SettingsItem(
+                                                  onTap: () {
+                                                    _pageController
+                                                        .animateToPage(0,
+                                                            duration:
+                                                                const Duration(
+                                                                    milliseconds:
+                                                                        500),
+                                                            curve: Curves.ease);
+                                                  },
+                                                  icons: Icons.info_rounded,
+                                                  iconStyle: IconStyle(
+                                                    backgroundColor:
+                                                        Colors.blueGrey,
+                                                  ),
+                                                  title: 'About',
+                                                  subtitle: "About Us",
                                                 ),
-                                                title: 'About',
-                                                subtitle: "About Us",
-                                              ),
-                                            ],
-                                          ),
-                                          // You can add a settings title
+                                              ],
+                                            ),
+                                            // You can add a settings title
 
-                                          const SizedBox(
-                                            height: 50,
-                                          )
-                                        ],
-                                      ),
-                                    ))),
-                            Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.7,
-                                width: MediaQuery.of(context).size.width,
-                                decoration: const BoxDecoration(
+                                            const SizedBox(
+                                              height: 50,
+                                            )
+                                          ],
+                                        ),
+                                      ))),
+                              Container(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.85,
+                                  width: MediaQuery.of(context).size.width,
+                                  decoration: const BoxDecoration(
                                     color: Colors.white,
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(50))),
-                                child: Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 20.h),
-                                    child: Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          10, 0, 10, 10),
-                                      child: ListView(
-                                        physics: const BouncingScrollPhysics(),
-                                        children: [
-                                          Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              InkWell(
-                                                onTap: () {
-                                                  _pageController.animateToPage(
-                                                      1,
-                                                      duration: const Duration(
-                                                          milliseconds: 500),
-                                                      curve: Curves.ease);
-                                                },
-                                                child: const Icon(
-                                                  Icons.arrow_back,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                              Text(
-                                                'DownLoads',
-                                                style: TextStyle(
-                                                    fontSize: 18.sp,
+                                    // borderRadius: BorderRadius.only(
+                                    //     topRight: Radius.circular(50))
+                                  ),
+                                  child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 20.h),
+                                      child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            10, 20, 10, 10),
+                                        child: ListView(
+                                          physics:
+                                              const BouncingScrollPhysics(),
+                                          children: [
+                                            Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                InkWell(
+                                                  onTap: () {
+                                                    _pageController
+                                                        .animateToPage(1,
+                                                            duration:
+                                                                const Duration(
+                                                                    milliseconds:
+                                                                        500),
+                                                            curve: Curves.ease);
+                                                  },
+                                                  child: const Icon(
+                                                    Icons.arrow_back,
                                                     color: Colors.black,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              const SizedBox()
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          ListView.builder(
-                                              shrinkWrap: true,
-                                              itemCount: downloadedBooks.length,
-                                              itemBuilder: (context, index) {
-                                                DownloadedBook book =
-                                                    downloadedBooks[index];
-                                                return !downloadedBooks[index]
-                                                            .status ||
-                                                        subscriptionStatus
-                                                            .isMonthly.value ||
-                                                        subscriptionStatus
-                                                            .isYearly.value
-                                                    ? DownloadsGroup(
-                                                        items: [
-                                                          DownloadedItem(
-                                                            onTap: () {
-                                                              Get.to(BookView(
-                                                                  filepath:
-                                                                      book.path,
-                                                                  booktitle: book
-                                                                      .name));
-                                                            },
-                                                            title: book.name,
-                                                            author: book.author,
-                                                            imageUrl: book
-                                                                .thumbnailUrl,
-                                                          ),
-                                                        ],
-                                                      )
-                                                    : const SizedBox();
-                                              }),
-                                          // DownloadsGroup(
-                                          //   items: [
-                                          //     DownloadedItem(
-                                          //       onTap: () {},
-                                          //       title: downloadedBooks.length.toString(),
-                                          //       author: "Your Favorite Books",
-                                          //       imageUrl:
-                                          //           'https://marketplace.canva.com/EAFPHUaBrFc/1/0/1003w/canva-black-and-white-modern-alone-story-book-cover-QHBKwQnsgzs.jpg',
-                                          //     ),
-                                          //     DownloadedItem(
-                                          //       onTap: () {},
-                                          //       title: 'Favorites',
-                                          //       author: "Your Favorite Books",
-                                          //       imageUrl:
-                                          //           'https://marketplace.canva.com/EAFPHUaBrFc/1/0/1003w/canva-black-and-white-modern-alone-story-book-cover-QHBKwQnsgzs.jpg',
-                                          //     ),
-                                          //   ],
-                                          // ),
-                                          // You can add a settings title
+                                                  ),
+                                                ),
+                                                Text(
+                                                  'DownLoads',
+                                                  style: TextStyle(
+                                                      fontSize: 18.sp,
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                const SizedBox()
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                            ListView.builder(
+                                                shrinkWrap: true,
+                                                itemCount:
+                                                    downloadedBooks.length,
+                                                itemBuilder: (context, index) {
+                                                  DownloadedBook book =
+                                                      downloadedBooks[index];
+                                                  return !downloadedBooks[index]
+                                                              .status ||
+                                                          subscriptionStatus
+                                                              .isMonthly
+                                                              .value ||
+                                                          subscriptionStatus
+                                                              .isYearly.value
+                                                      ? DownloadsGroup(
+                                                          items: [
+                                                            DownloadedItem(
+                                                              onTap: () {
+                                                                Get.to(BookView(
+                                                                    filepath: book
+                                                                        .path,
+                                                                    booktitle: book
+                                                                        .name));
+                                                              },
+                                                              title: book.name,
+                                                              author:
+                                                                  book.author,
+                                                              imageUrl: book
+                                                                  .thumbnailUrl,
+                                                            ),
+                                                          ],
+                                                        )
+                                                      : const SizedBox();
+                                                }),
+                                            // DownloadsGroup(
+                                            //   items: [
+                                            //     DownloadedItem(
+                                            //       onTap: () {},
+                                            //       title: downloadedBooks.length.toString(),
+                                            //       author: "Your Favorite Books",
+                                            //       imageUrl:
+                                            //           'https://marketplace.canva.com/EAFPHUaBrFc/1/0/1003w/canva-black-and-white-modern-alone-story-book-cover-QHBKwQnsgzs.jpg',
+                                            //     ),
+                                            //     DownloadedItem(
+                                            //       onTap: () {},
+                                            //       title: 'Favorites',
+                                            //       author: "Your Favorite Books",
+                                            //       imageUrl:
+                                            //           'https://marketplace.canva.com/EAFPHUaBrFc/1/0/1003w/canva-black-and-white-modern-alone-story-book-cover-QHBKwQnsgzs.jpg',
+                                            //     ),
+                                            //   ],
+                                            // ),
+                                            // You can add a settings title
 
-                                          const SizedBox(
-                                            height: 50,
-                                          )
-                                        ],
-                                      ),
-                                    ))),
-                          ],
-                        )))
-              ]))
-        ]),
+                                            const SizedBox(
+                                              height: 50,
+                                            )
+                                          ],
+                                        ),
+                                      ))),
+                            ],
+                          )))
+                ]))
+          ]),
+        ),
       ),
     );
   }

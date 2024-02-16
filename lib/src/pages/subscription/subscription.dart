@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:book_store/src/models/book.dart';
+import 'package:book_store/src/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
@@ -121,7 +122,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                   children: [
                     Container(
                       decoration: const BoxDecoration(
-                          color: Colors.black,
+                          color: AppColors.primarycolor2,
                           borderRadius: BorderRadius.only(
                               bottomRight: Radius.circular(50))),
                       height: MediaQuery.of(context).size.height * 0.4,
@@ -239,7 +240,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                               TextButton(
                                 child: const Text(
                                   'Restore Purchase',
-                                  style: TextStyle(color: Colors.black),
+                                  style: TextStyle(color: AppColors.primarycolor2,),
                                 ),
                                 onPressed: () {},
                               )
@@ -266,14 +267,14 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                               TextButton(
                                 child: const Text(
                                   'Privacy Policy',
-                                  style: TextStyle(color: Colors.black),
+                                  style: TextStyle(color: AppColors.primarycolor2,),
                                 ),
                                 onPressed: () {},
                               ),
                               TextButton(
                                 child: const Text(
                                   'Terms of Service',
-                                  style: TextStyle(color: Colors.black),
+                                  style: TextStyle(color: AppColors.primarycolor2,),
                                 ),
                                 onPressed: () {},
                               ),

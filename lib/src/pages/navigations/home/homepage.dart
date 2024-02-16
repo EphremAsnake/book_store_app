@@ -43,15 +43,15 @@ class _HomePageState extends State<HomePage>
     _iapSubscription = purchaseUpdated.listen((purchaseDetailsList) {
       IAPService(
               monthlyProductId: Platform.isAndroid
-                  ? configController.appConfig.value!.androidSettings!
-                      .subscriptionSettings!.monthSubscriptionId!
-                  : configController.appConfig.value!.iosSettings!
-                      .subscriptionSettings!.monthSubscriptionId!,
+                  ? configController.appConfig.value!.androidSettings
+                      .subscriptionSettings.monthSubscriptionId
+                  : configController.appConfig.value!.iosSettings
+                      .subscriptionSettings.monthSubscriptionId,
               yearlyProductId: Platform.isAndroid
-                  ? configController.appConfig.value!.androidSettings!
-                      .subscriptionSettings!.yearSubscriptionId!
-                  : configController.appConfig.value!.iosSettings!
-                      .subscriptionSettings!.yearSubscriptionId!)
+                  ? configController.appConfig.value!.androidSettings
+                      .subscriptionSettings.yearSubscriptionId
+                  : configController.appConfig.value!.iosSettings
+                      .subscriptionSettings.yearSubscriptionId)
           .listenToPurchaseUpdated(purchaseDetailsList);
     }, onDone: () {
       _iapSubscription.cancel();
@@ -62,15 +62,15 @@ class _HomePageState extends State<HomePage>
     //!Check Subscription Availability
     IAPService(
             monthlyProductId: Platform.isAndroid
-                ? configController.appConfig.value!.androidSettings!
-                    .subscriptionSettings!.monthSubscriptionId!
-                : configController.appConfig.value!.iosSettings!
-                    .subscriptionSettings!.monthSubscriptionId!,
+                ? configController.appConfig.value!.androidSettings
+                    .subscriptionSettings.monthSubscriptionId
+                : configController.appConfig.value!.iosSettings
+                    .subscriptionSettings.monthSubscriptionId,
             yearlyProductId: Platform.isAndroid
-                ? configController.appConfig.value!.androidSettings!
-                    .subscriptionSettings!.yearSubscriptionId!
-                : configController.appConfig.value!.iosSettings!
-                    .subscriptionSettings!.yearSubscriptionId!)
+                ? configController.appConfig.value!.androidSettings
+                    .subscriptionSettings.yearSubscriptionId
+                : configController.appConfig.value!.iosSettings
+                    .subscriptionSettings.yearSubscriptionId)
         .checkSubscriptionAvailabilty();
 
     controller.reference = this;
@@ -107,22 +107,34 @@ class _HomePageState extends State<HomePage>
             length: controller.allCategoriesList.length,
             child: Scaffold(
                 backgroundColor: Colors.white,
+                appBar: AppBar(
+                  notificationPredicate: (_) => false,
+                  backgroundColor: AppColors.primarycolor2,
+                  title: Text(
+                    'The Best Books For You!',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 25.h,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  centerTitle: true,
+                ),
                 body: NestedScrollView(
                     headerSliverBuilder:
                         (BuildContext context, bool innerBoxIsScrolled) {
                       return <Widget>[
                         SliverAppBar(
                           expandedHeight:
-                              MediaQuery.of(context).size.height * 0.35,
+                              MediaQuery.of(context).size.height * 0.15,
                           backgroundColor: Colors.transparent,
                           flexibleSpace: FlexibleSpaceBar(
                             background: Container(
                                 decoration: const BoxDecoration(
-                                    color: Colors.black,
+                                    color: AppColors.primarycolor2,
                                     borderRadius: BorderRadius.only(
-                                        bottomRight: Radius.circular(50))),
+                                        bottomRight: Radius.circular(45))),
                                 height:
-                                    MediaQuery.of(context).size.height * 0.35,
+                                    MediaQuery.of(context).size.height * 0.15,
                                 child: Padding(
                                   padding: const EdgeInsets.only(left: 20.0),
                                   child: Column(
@@ -130,39 +142,13 @@ class _HomePageState extends State<HomePage>
                                         CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      SizedBox(
-                                        height:
-                                            MediaQuery.sizeOf(context).height *
-                                                0.1.h,
-                                      ),
-                                      Text(
-                                        'The Best',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 25.h,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Text('Books For You!',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 25.h,
-                                              fontWeight: FontWeight.bold)),
-                                      Text('Subscribe to Unlock All books!',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 20.h,
-                                              fontWeight: FontWeight.bold)),
-                                      SizedBox(
-                                        height:
-                                            MediaQuery.sizeOf(context).height *
-                                                0.02.h,
-                                      ),
+                                      
 
-                                      Text('Search for your favorite books',
-                                          style: TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 20.h,
-                                              fontWeight: FontWeight.w300)),
+                                      // Text('Search for your favorite books',
+                                      //     style: TextStyle(
+                                      //         color: Colors.grey,
+                                      //         fontSize: 20.h,
+                                      //         fontWeight: FontWeight.w300)),
                                       //!Search Field
                                       Padding(
                                         padding: EdgeInsets.only(

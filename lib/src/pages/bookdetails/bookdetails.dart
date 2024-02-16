@@ -27,6 +27,11 @@ class _BookDetailsState extends State<BookDetails> {
     return GetBuilder<SubscriptionStatus>(builder: (subscriptionStatus) {
       return Scaffold(
           backgroundColor: Colors.white,
+          appBar: AppBar(
+            notificationPredicate: (_) => false,
+            iconTheme: const IconThemeData(color: Colors.white),
+            backgroundColor: AppColors.primarycolor2,
+          ),
           body: Stack(children: [
             SingleChildScrollView(
                 //physics: const BouncingScrollPhysics(),
@@ -38,9 +43,9 @@ class _BookDetailsState extends State<BookDetails> {
                   children: [
                     Container(
                       decoration: const BoxDecoration(
-                          color: Colors.black,
-                          borderRadius: BorderRadius.vertical(
-                            bottom: Radius.circular(45),
+                          color: AppColors.primarycolor2,
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(50),
                           )),
                       height: MediaQuery.of(context).size.height * 0.6,
                     ),
@@ -50,11 +55,11 @@ class _BookDetailsState extends State<BookDetails> {
                         child: Container(
                           height: MediaQuery.of(context).size.height * 0.35,
                           width: MediaQuery.of(context).size.width * 0.7,
-                          decoration: const BoxDecoration(
-                              color: Colors.white,
+                          decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.9),
                               borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(50),
-                                  bottomRight: Radius.circular(45))),
+                                bottomLeft: Radius.circular(50),
+                              )),
                         )),
                     Column(
                       children: [
@@ -62,7 +67,7 @@ class _BookDetailsState extends State<BookDetails> {
                           decoration: const BoxDecoration(
                               color: Colors.transparent,
                               borderRadius: BorderRadius.vertical(
-                                bottom: Radius.circular(45),
+                                bottom: Radius.circular(50),
                               )),
                           height: MediaQuery.of(context).size.height * 0.6,
                           child: Column(
@@ -95,9 +100,10 @@ class _BookDetailsState extends State<BookDetails> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        // widget.bookModel.name,
-                                        'The Book Title Name',
+                                        widget.bookModel.name,
+                                        //'The Book Title Name',
                                         style: TextStyle(
+                                            color: AppColors.primarycolor2,
                                             fontWeight: FontWeight.bold,
                                             fontSize: 17.sp),
                                       ),
@@ -107,6 +113,7 @@ class _BookDetailsState extends State<BookDetails> {
                                       Text(
                                         widget.bookModel.author,
                                         style: TextStyle(
+                                            color: AppColors.primarycolor2,
                                             fontWeight: FontWeight.normal,
                                             fontSize: 16.sp),
                                       ),
@@ -186,69 +193,69 @@ class _BookDetailsState extends State<BookDetails> {
                         ),
                       ),
                     ),
-                    Positioned(
-                        top: MediaQuery.of(context).size.height * 0.053,
-                        right: 20,
-                        child: IconButton(
-                          onPressed: () {
-                            Get.back();
-                          },
-                          icon: const Icon(
-                            Icons.close,
-                            size: 35,
-                          ),
-                          color: Colors.black,
-                        )),
+                    // Positioned(
+                    //     top: MediaQuery.of(context).size.height * 0.053,
+                    //     right: 20,
+                    //     child: IconButton(
+                    //       onPressed: () {
+                    //         Get.back();
+                    //       },
+                    //       icon: const Icon(
+                    //         Icons.close,
+                    //         size: 35,
+                    //       ),
+                    //       color: Colors.black,
+                    //     )),
                   ],
                 ),
                 const SizedBox(
                   height: 10,
                 ),
-                !widget.bookModel.locked ||
-                        subscriptionStatus.isMonthly.value ||
-                        subscriptionStatus.isYearly.value
-                    ? const SizedBox()
-                    : Center(
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.75,
-                          child: TextButton(
-                            onPressed: () async {},
-                            style: TextButton.styleFrom(
-                              backgroundColor: AppColors.primaryColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5.r),
-                              ),
-                              elevation: 5,
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(vertical: 5.h),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Column(
-                                    children: [
-                                      Text(
-                                        'Subscribe to Unlock All Books',
-                                        style: TextStyle(
-                                          fontSize: 16.sp,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      Text(
-                                        'Only \$${widget.bookModel.price}',
-                                        style: TextStyle(
-                                          fontSize: 16.sp,
-                                          color: Colors.green,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                // !widget.bookModel.locked ||
+                //         subscriptionStatus.isMonthly.value ||
+                //         subscriptionStatus.isYearly.value
+                //     ? const SizedBox()
+                //     : Center(
+                //         child: SizedBox(
+                //           width: MediaQuery.of(context).size.width * 0.75,
+                //           child: TextButton(
+                //             onPressed: () async {},
+                //             style: TextButton.styleFrom(
+                //               backgroundColor: AppColors.primaryColor,
+                //               shape: RoundedRectangleBorder(
+                //                 borderRadius: BorderRadius.circular(5.r),
+                //               ),
+                //               elevation: 5,
+                //             ),
+                //             child: Padding(
+                //               padding: EdgeInsets.symmetric(vertical: 5.h),
+                //               child: Row(
+                //                 mainAxisAlignment: MainAxisAlignment.center,
+                //                 children: [
+                //                   Column(
+                //                     children: [
+                //                       Text(
+                //                         'Subscribe to Unlock All Books',
+                //                         style: TextStyle(
+                //                           fontSize: 16.sp,
+                //                           color: Colors.white,
+                //                         ),
+                //                       ),
+                //                       Text(
+                //                         'Only \$${widget.bookModel.price}',
+                //                         style: TextStyle(
+                //                           fontSize: 16.sp,
+                //                           color: Colors.green,
+                //                         ),
+                //                       ),
+                //                     ],
+                //                   ),
+                //                 ],
+                //               ),
+                //             ),
+                //           ),
+                //         ),
+                //       ),
                 const SizedBox(
                   height: 10,
                 ),
@@ -308,47 +315,52 @@ class _BookDetailsState extends State<BookDetails> {
                     subscriptionStatus.isYearly.value
                 ? const SizedBox()
                 : Positioned(
-                    bottom: 15.w,
-                    left: 15.w,
-                    right: 15.w,
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: InkWell(
-                            borderRadius: BorderRadius.circular(5.r),
-                            splashColor: Colors.green,
-                            onTap: () async {
-                              Get.to(SubscriptionPage(
-                                //bookModel: widget.bookModel,
-                              ));
-                            },
-                            child: const MyCustomBottomBar(
-                              title: 'Subscribe',
-                              secline: '\$2.99/Month',
-                              disable: false,
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: Container(
+                      padding: EdgeInsets.only(
+                          bottom: 15.w, left: 15.w, right: 15.w, top: 5),
+                      color: Colors.white,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(5.r),
+                              splashColor: Colors.green,
+                              onTap: () async {
+                                Get.to(const SubscriptionPage(
+                                    //bookModel: widget.bookModel,
+                                    ));
+                              },
+                              child: const MyCustomBottomBar(
+                                title: 'Subscribe',
+                                secline: '\$2.99/Month',
+                                disable: false,
+                              ),
                             ),
                           ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Expanded(
-                          child: InkWell(
-                            borderRadius: BorderRadius.circular(5.r),
-                            splashColor: Colors.green,
-                            onTap: () async {
-                              // Get.to(PurchasePage(
-                              //   bookModel: widget.bookModel,
-                              // ));
-                            },
-                            child: MyCustomBottomBar(
-                              title: 'Buy this book for',
-                              secline: '\$${widget.bookModel.price}',
-                              disable: false,
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(5.r),
+                              splashColor: Colors.green,
+                              onTap: () async {
+                                // Get.to(PurchasePage(
+                                //   bookModel: widget.bookModel,
+                                // ));
+                              },
+                              child: MyCustomBottomBar(
+                                title: 'Buy this book for',
+                                secline: '\$${widget.bookModel.price}',
+                                disable: false,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   )
           ]));
