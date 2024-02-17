@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:book_store/src/models/book.dart';
 import 'package:book_store/src/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 
+import '../../models/bookprices.dart';
 import '../../models/categories.dart';
 import '../../pages/navigations/home/logic.dart';
 import '../../utils/constants/strings.dart';
@@ -93,6 +96,38 @@ getBooksList(BuildContext context, bool responseCheck, List<dynamic> response) {
     //     length: homeController.allBooks.length,
     // //     vsync: homeController.reference!);
     // homeController.tabController!.length = homeController.allBooks.length;
+    getMethod(context, ApiUrls.prices, getPriceList);
+    //homeController.allcategoriesLoader.value = false;
+  } else {
+    //!Get.find<GeneralController>().updateFormLoaderController(false);
+
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return CustomDialogBox(
+            title: LanguageConstant.failed,
+            titleColor: AppColors.primaryColor,
+            descriptions: LanguageConstant.tryAgain,
+            text: LanguageConstant.ok,
+            functionCall: () {
+              Navigator.pop(context);
+            },
+          );
+        });
+  }
+}
+
+getPriceList(BuildContext context, bool responseCheck, List<dynamic> response) {
+  final HomeLogic homeController = Get.find();
+  if (responseCheck) {
+    // BookPrices bookPrices = BookPrices.fromJson(response);
+    // log.e(bookPrices.categories[0].name);
+    //List<dynamic> jsonResponse = json.decode(response);
+    List<PriceCategory> categories =
+        response.map((item) => PriceCategory.fromJson(item)).toList();
+    homeController.setPriceCategories(categories);
+    //log.e(homeController.priceCategories[1].name);
     homeController.allcategoriesLoader.value = false;
   } else {
     //!Get.find<GeneralController>().updateFormLoaderController(false);

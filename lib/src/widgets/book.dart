@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:resize/resize.dart';
 
 import '../models/book.dart';
+import '../pages/navigations/home/logic.dart';
 
 class BookWidget extends StatefulWidget {
   final BookModel bookModel;
@@ -16,6 +18,7 @@ class BookWidget extends StatefulWidget {
 }
 
 class _BookWidgetState extends State<BookWidget> {
+ final HomeLogic homeController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -54,7 +57,7 @@ class _BookWidgetState extends State<BookWidget> {
           Text(widget.bookModel.name,
               style: const TextStyle(
                   color: Colors.black, fontWeight: FontWeight.bold)),
-          Text('\$${widget.bookModel.price}',
+          Text('\$${homeController.getPriceByName(widget.bookModel.pricecategories)}',
               style: const TextStyle(color: Colors.black))
         ],
       ),

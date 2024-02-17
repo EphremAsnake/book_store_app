@@ -2,6 +2,8 @@ import 'package:book_store/src/models/book.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../models/bookprices.dart';
+
 class HomeLogic extends GetxController {
   //var categories = [].obs;
   TabController? tabController;
@@ -13,6 +15,19 @@ class HomeLogic extends GetxController {
   RxBool allcategoriesLoader = true.obs;
 
   List<BookModel> allBooks = [];
+
+  RxList<PriceCategory> priceCategories = RxList<PriceCategory>();
+
+  void setPriceCategories(List<PriceCategory> categories) {
+    priceCategories.assignAll(categories);
+  }
+
+  double getPriceByName(String categoryName) {
+    PriceCategory? category = priceCategories.firstWhere(
+        (category) => category.name == categoryName,
+        orElse: () => PriceCategory(name: '', price: 1.99));
+    return category.price;
+  }
 
   RxList<BookModel> filteredBooks = <BookModel>[].obs;
 

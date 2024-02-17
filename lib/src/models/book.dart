@@ -9,7 +9,7 @@ class BookModel {
   final DateTime publishedDate;
   final String language;
   final List<String> categories;
-  final double price;
+  final String pricecategories;
   final int pageCount;
   final bool locked;
 
@@ -24,7 +24,7 @@ class BookModel {
     required this.publishedDate,
     required this.language,
     required this.categories,
-    required this.price,
+    required this.pricecategories,
     required this.pageCount,
     required this.locked,
   });
@@ -43,7 +43,7 @@ class BookModel {
         publishedDate: DateTime.now(),
         language: '',
         categories: [],
-        price: 0.0,
+        pricecategories: '',
         pageCount: 0,
         locked: false,
       );
@@ -64,7 +64,7 @@ class BookModel {
               ?.map((category) => category.toString())
               .toList() ??
           [],
-      price: (json['price'] as num?)?.toDouble() ?? 0.0,
+      pricecategories: json['pricecategories'] ?? '',
       pageCount: json['pageCount'] ?? 0,
       locked: json['locked'] ?? false,
     );
@@ -82,7 +82,7 @@ class BookModel {
       'publishedDate': publishedDate.toIso8601String(),
       'language': language,
       'categories': categories,
-      'price': price,
+      'pricecategories': pricecategories,
       'pageCount': pageCount,
       'locked': locked,
     };
