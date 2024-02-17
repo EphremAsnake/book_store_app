@@ -68,13 +68,10 @@ class _BookDetailsState extends State<BookDetails> {
     String descriptiontext = widget.bookModel.description;
     double heightSize = MediaQuery.of(context).size.height * 0.6;
     int siz = descriptiontext.length;
-    double marginfromtop = MediaQuery.of(context).size.height * 0.35 + 10;
     if (siz < 200) {
-      heightSize = MediaQuery.of(context).size.height * 0.45;
-      marginfromtop = MediaQuery.of(context).size.height * 0.20 + 10;
+      heightSize = MediaQuery.of(context).size.height * 0.42;
     } else {
-      heightSize = MediaQuery.of(context).size.height * 0.6;
-      marginfromtop = MediaQuery.of(context).size.height * 0.35 + 10;
+      heightSize = MediaQuery.of(context).size.height * 0.55;
     }
 
     return GetBuilder<SubscriptionStatus>(builder: (subscriptionStatus) {
@@ -111,9 +108,10 @@ class _BookDetailsState extends State<BookDetails> {
                           width: MediaQuery.of(context).size.width * 0.7,
                           decoration: const BoxDecoration(
                               color: Colors.transparent,
-                              borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(50),
-                              )),
+                              // borderRadius: BorderRadius.only(
+                              //   bottomLeft: Radius.circular(50),
+                              // )
+                              ),
                         )),
                     Column(
                       children: [
@@ -128,7 +126,7 @@ class _BookDetailsState extends State<BookDetails> {
                             children: [
                               SizedBox(
                                   height: MediaQuery.of(context).size.height *
-                                      0.06),
+                                      0.02),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -204,7 +202,7 @@ class _BookDetailsState extends State<BookDetails> {
                       ],
                     ),
                     Positioned(
-                      top: MediaQuery.of(context).size.height * 0.35 + 10,
+                      top: MediaQuery.of(context).size.height * 0.3 + 10,
                       left: 45,
                       right: 45,
                       child: SizedBox(
