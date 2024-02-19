@@ -56,7 +56,7 @@ class MyCustomBottomBarState extends State<MyCustomBottomBar> {
                             '${widget.title}',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 16.sp,
+                                fontSize: 14.sp,
                                 color: Colors.white),
                           ),
                           if (widget.secline != null)
@@ -64,7 +64,7 @@ class MyCustomBottomBarState extends State<MyCustomBottomBar> {
                               '${widget.secline}',
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 14.sp,
+                                  fontSize: 13.sp,
                                   color: Colors.green),
                             ),
                         ],

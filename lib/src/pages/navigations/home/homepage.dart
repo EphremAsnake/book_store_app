@@ -107,6 +107,7 @@ class _HomePageState extends State<HomePage>
             length: controller.allCategoriesList.length,
             child: Scaffold(
                 backgroundColor: Colors.white,
+                
                 appBar: AppBar(
                   notificationPredicate: (_) => false,
                   backgroundColor: AppColors.primarycolor2,
@@ -120,6 +121,7 @@ class _HomePageState extends State<HomePage>
                   centerTitle: true,
                 ),
                 body: NestedScrollView(
+                    physics: const NeverScrollableScrollPhysics(),
                     headerSliverBuilder:
                         (BuildContext context, bool innerBoxIsScrolled) {
                       return <Widget>[

@@ -50,6 +50,7 @@ class _SettingsPageState extends State<SettingsPage> {
           notificationPredicate: (_) => false,
           backgroundColor: AppColors.primarycolor2),
         body: SingleChildScrollView(
+          physics: const NeverScrollableScrollPhysics(),
           child: Column(children: [
             SizedBox(
                 height: MediaQuery.of(context).size.height,
@@ -176,7 +177,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                                       'Loading...',
                                             ),
                                             const SizedBox(
-                                              height: 50,
+                                              height: 120,
                                             )
                                           ],
                                         ),
@@ -309,7 +310,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                             // You can add a settings title
 
                                             const SizedBox(
-                                              height: 50,
+                                              height: 120,
                                             )
                                           ],
                                         ),
@@ -424,7 +425,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                             // You can add a settings title
 
                                             const SizedBox(
-                                              height: 50,
+                                              height: 120,
                                             )
                                           ],
                                         ),

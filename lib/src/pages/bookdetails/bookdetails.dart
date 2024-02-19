@@ -430,9 +430,9 @@ class _BookDetailsState extends State<BookDetails> {
                                 // ));
                               },
                               child: MyCustomBottomBar(
-                                title: 'Buy this book for',
+                                title: 'Buy this book',
                                 secline:
-                                    '\$${controller.getPriceByName(widget.bookModel.pricecategories)}',
+                                    'for \$${controller.getPriceByName(widget.bookModel.pricecategories)}',
                                 disable: false,
                               ),
                             ),
