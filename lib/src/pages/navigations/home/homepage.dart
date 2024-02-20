@@ -90,6 +90,8 @@ class _HomePageState extends State<HomePage>
     //}
   }
 
+  TextEditingController searchcontroller = TextEditingController();
+
   @override
   void dispose() {
     super.dispose();
@@ -107,7 +109,6 @@ class _HomePageState extends State<HomePage>
             length: controller.allCategoriesList.length,
             child: Scaffold(
                 backgroundColor: Colors.white,
-                
                 appBar: AppBar(
                   notificationPredicate: (_) => false,
                   backgroundColor: AppColors.primarycolor2,
@@ -150,8 +151,8 @@ class _HomePageState extends State<HomePage>
                                       //         fontWeight: FontWeight.w300)),
                                       //!Search Field
                                       Padding(
-                                        padding: const EdgeInsets.only(
-                                            right: 20.0, top: 10),
+                                        padding:  EdgeInsets.only(
+                                            right: 20.0, top: 10.h),
                                         child: TextFormField(
                                           onTap: () {
                                             Get.to(const SearchPage());
@@ -183,22 +184,22 @@ class _HomePageState extends State<HomePage>
                                             filled: true,
                                             enabledBorder: OutlineInputBorder(
                                                 borderRadius:
-                                                    BorderRadius.circular(15),
+                                                    BorderRadius.circular(8.r),
                                                 borderSide: const BorderSide(
                                                     color: Colors.transparent)),
                                             border: OutlineInputBorder(
                                                 borderRadius:
-                                                    BorderRadius.circular(15),
+                                                    BorderRadius.circular(8.r),
                                                 borderSide: const BorderSide(
                                                     color: Colors.transparent)),
                                             focusedBorder: OutlineInputBorder(
                                                 borderRadius:
-                                                    BorderRadius.circular(15),
+                                                    BorderRadius.circular(8.r),
                                                 borderSide: const BorderSide(
                                                     color: Colors.white)),
                                             errorBorder: OutlineInputBorder(
                                                 borderRadius:
-                                                    BorderRadius.circular(15),
+                                                    BorderRadius.circular(8.r),
                                                 borderSide: const BorderSide(
                                                     color: Colors.red)),
                                           ),

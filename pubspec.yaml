@@ -32,6 +32,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   device_info_plus: ^9.1.2
   dio: ^5.4.0
+  easy_search_bar: ^2.5.0
   flutter:
     sdk: flutter
   flutter_svg: ^2.0.9
@@ -40,6 +41,7 @@ dependencies:
   in_app_purchase: ^3.1.11
   logger: ^2.0.2+1
   logman: ^0.0.5
+  material_floating_search_bar_2: ^0.5.0
   motion_tab_bar: ^2.0.4
   path_provider: ^2.1.2
   permission_handler: ^11.3.0

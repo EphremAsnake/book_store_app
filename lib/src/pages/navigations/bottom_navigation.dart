@@ -55,13 +55,13 @@ class NavigationPageState extends State<NavigationPage>
         tabBarHeight: 55,
         textStyle: const TextStyle(
           fontSize: 12,
-          color: Colors.black,
+          color: AppColors.primarycolor2,
           fontWeight: FontWeight.w500,
         ),
-        tabIconColor: AppColors.primaryColor,
+        tabIconColor: AppColors.primarycolor2,
         tabIconSize: 28.0,
         tabIconSelectedSize: 26.0,
-        tabSelectedColor: AppColors.primaryColor,
+        tabSelectedColor: AppColors.primarycolor2,
         tabIconSelectedColor: Colors.white,
         tabBarColor: Colors.white,
         onTabItemSelected: (int value) {
