@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:logman/logman.dart';
+//import 'package:logman/logman.dart';
 
 import '../utils/constants/urls.dart';
 
@@ -40,7 +40,7 @@ HttpClientAdapter getAdapter() {
 }
 
 class LogmanDioInterceptor extends Interceptor {
-  final Logman _logman = Logman.instance;
+  //final Logman _logman = Logman.instance;
 
   LogmanDioInterceptor();
 
@@ -52,15 +52,15 @@ class LogmanDioInterceptor extends Interceptor {
     _cache[options] = requestId;
     final sentAt = DateTime.now();
 
-    final requestRecord = NetworkRequestLogmanRecord(
-      id: requestId,
-      url: options.uri.toString(),
-      method: options.method,
-      headers: options.headers,
-      body: options.data,
-      sentAt: sentAt,
-    );
-    _logman.recordNetworkRequest(requestRecord);
+    // final requestRecord = NetworkRequestLogmanRecord(
+    //   id: requestId,
+    //   url: options.uri.toString(),
+    //   method: options.method,
+    //   headers: options.headers,
+    //   body: options.data,
+    //   sentAt: sentAt,
+    // );
+    // _logman.recordNetworkRequest(requestRecord);
 
     return super.onRequest(options, handler);
   }
@@ -73,15 +73,15 @@ class LogmanDioInterceptor extends Interceptor {
     final id = _cache[response.requestOptions];
     final receivedAt = DateTime.now();
 
-    final responseRecord = NetworkResponseLogmanRecord(
-      id: id!,
-      statusCode: response.statusCode,
-      headers: responseHeaders,
-      body: response.data.toString(),
-      receivedAt: receivedAt,
-    );
+    // final responseRecord = NetworkResponseLogmanRecord(
+    //   id: id!,
+    //   statusCode: response.statusCode,
+    //   headers: responseHeaders,
+    //   body: response.data.toString(),
+    //   receivedAt: receivedAt,
+    // );
 
-    _logman.recordNetworkResponse(responseRecord);
+    // _logman.recordNetworkResponse(responseRecord);
 
     return super.onResponse(response, handler);
   }
@@ -93,15 +93,15 @@ class LogmanDioInterceptor extends Interceptor {
     );
     final id = _cache[err.requestOptions];
 
-    final responseRecord = NetworkResponseLogmanRecord(
-      id: id!,
-      statusCode: err.response?.statusCode ?? 0,
-      headers: responseHeaders,
-      body: err.response?.data.toString(),
-      receivedAt: DateTime.now(),
-    );
+    // final responseRecord = NetworkResponseLogmanRecord(
+    //   id: id!,
+    //   statusCode: err.response?.statusCode ?? 0,
+    //   headers: responseHeaders,
+    //   body: err.response?.data.toString(),
+    //   receivedAt: DateTime.now(),
+    // );
 
-    _logman.recordNetworkResponse(responseRecord);
+    // _logman.recordNetworkResponse(responseRecord);
 
     return super.onError(err, handler);
   }

@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart' as dio_instance;
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../utils/constants/colors.dart';
 import '../utils/constants/strings.dart';
@@ -29,20 +31,40 @@ getMethod(BuildContext context, String apiUrl, Function executionMethod) async {
 
         if (response.statusCode == 200) {
           logger.d('getApi $apiUrl ---->>>>  ${response.data}');
+          saveToLocalStorageConfigs(apiUrl, response.data);
           // ignore: use_build_context_synchronously
           executionMethod(context, true, response.data);
           return;
+        } else {
+          String storeddata = await getFromStorageConfigs(apiUrl);
+          if (storeddata != "") {
+            List<dynamic> parseddata = json.decode(storeddata);
+            // ignore: use_build_context_synchronously
+            executionMethod(context, true, parseddata);
+            return;
+          } else {
+            logger.e('getApi $apiUrl ---->>>>  ${response.data}');
+            // ignore: use_build_context_synchronously
+            executionMethod(context, false, {'status': null});
+          }
         }
-        logger.e('getApi $apiUrl ---->>>>  ${response.data}');
-        // ignore: use_build_context_synchronously
-        executionMethod(context, false, {'status': null});
       } on dio_instance.DioException catch (e) {
-        logger.e('Dio Error     $apiUrl ---->>>>${e.response}');
-        // ignore: use_build_context_synchronously
-        executionMethod(context, false, {'status': null});
+        String storeddata = await getFromStorageConfigs(apiUrl);
+        logger.e('stored data value $storeddata');
+        if (storeddata != "") {
+          List<dynamic> parseddata = json.decode(storeddata);
+          // ignore: use_build_context_synchronously
+          executionMethod(context, true, parseddata);
+          return;
+        } else {
+          //! List<dynamic> parsedconfigdata = json.decode(storedconfigdata);
+          logger.e('Dio Error     $apiUrl ---->>>>${e.response}');
+          // ignore: use_build_context_synchronously
+          executionMethod(context, false, []);
 
-        if (e.response != null) {
-        } else {}
+          if (e.response != null) {
+          } else {}
+        }
       }
     }
   } on SocketException catch (_) {
@@ -64,4 +86,22 @@ getMethod(BuildContext context, String apiUrl, Function executionMethod) async {
         });
     //!Get.find<ApiLogic>().changeInternetCheckerState(false);
   }
+}
+
+Future<void> useLocalDataBoth(key) async {
+  String storedconfigdata = await getFromStorageConfigs(key);
+  List<dynamic> parsedconfigdata = json.decode(storedconfigdata);
+  //appConfig.value = AppSettings.fromJson(parsedconfigdata);
+}
+
+void saveToLocalStorageConfigs(key, data) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String jsonData = json.encode(data); // Convert to JSON string
+  await prefs.setString(key, jsonData);
+}
+
+Future<String> getFromStorageConfigs(key) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? storedData = prefs.getString(key);
+  return storedData ?? "da";
 }

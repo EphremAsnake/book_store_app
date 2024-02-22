@@ -20,18 +20,23 @@ class AppConfigController extends GetxController {
   }
 
   Future<void> fetchData() async {
+    String storedconfigdata = await getFromStorageConfigs();
     try {
       final response = await _dio.get(ApiUrls.configs);
       if (response.statusCode == 200) {
         appConfig.value = AppSettings.fromJson(response.data);
         saveToLocalStorageConfigs(response.data);
       } else {
-        await useLocalDataBoth();
+        if (storedconfigdata != "") {
+          await useLocalDataBoth();
+        }
       }
       appConfigFetched.value = true;
       //print(appConfig.value!.androidSettings.aboutApp);
     } catch (e) {
-      await useLocalDataBoth();
+      if (storedconfigdata != "") {
+        await useLocalDataBoth();
+      }
       appConfigFetched.value = true;
       debugPrint('Error fetching data: $e');
     }
