@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,9 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/appconfigs.dart';
+import '../pages/navigations/home/logic.dart';
+import '../services/apicalls.dart';
+import '../services/repos/functions.dart';
 import '../utils/constants/urls.dart';
 
 class AppConfigController extends GetxController {
@@ -13,18 +17,37 @@ class AppConfigController extends GetxController {
   final Rx<AppSettings?> appConfig = Rx<AppSettings?>(null);
   final RxBool appConfigFetched = RxBool(false);
 
-  @override
-  void onInit() {
-    super.onInit();
-    fetchData();
-  }
+  // @override
+  // void onInit() {
+  //   super.onInit();
+  //   //fetchData();
+  // }
 
-  Future<void> fetchData() async {
+  Future<void> fetchData(BuildContext context) async {
+    final HomeLogic homeController = Get.find();
     String storedconfigdata = await getFromStorageConfigs();
     try {
       final response = await _dio.get(ApiUrls.configs);
       if (response.statusCode == 200) {
         appConfig.value = AppSettings.fromJson(response.data);
+        
+        homeController.allCategoriesList.clear();
+        for (var element in Platform.isAndroid
+            ? appConfig.value!.androidSettings.categories
+            : appConfig.value!.iosSettings.categories) {
+          homeController.allCategoriesList.add(Tab(text: element.name));
+        }
+
+        
+
+        // ignore: use_build_context_synchronously
+        getMethod(context, ApiUrls.bookslist, getBooksList);
+
+        homeController.setPriceCategories(Platform.isAndroid
+            ? appConfig.value!.androidSettings.priceRange
+            : appConfig.value!.iosSettings.priceRange);
+
+        
         saveToLocalStorageConfigs(response.data);
       } else {
         if (storedconfigdata != "") {

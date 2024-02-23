@@ -74,20 +74,27 @@ class _HomePageState extends State<HomePage>
         .checkSubscriptionAvailabilty();
 
     controller.reference = this;
+    controller.tabController = TabController(
+        length: controller.allCategoriesList.length,
+        vsync: controller.reference!);
+
+    controller.update();
     storageController.loadDownloadedBooks();
-    getMethod(context, ApiUrls.categories, getCategoriesList);
+
+    //getMethod(context, ApiUrls.categories, getCategoriesList);
 
     // getMethod(context, ApiUrls.bookslist, getBooksList);
 
-    //if (controller.allCategoriesList.isNotEmpty) {
-    // controller.tabController!.addListener(() {
-    //   if (controller.tabController!.indexIsChanging) {
-    //     String selectedCategory = controller
-    //         .allCategoriesList[controller.tabController!.index].text??'All';
-    //     controller.filterBooksByCategory(selectedCategory);
-    //   }
-    // });
-    //}
+    if (controller.allCategoriesList.isNotEmpty) {
+      controller.tabController!.addListener(() {
+        if (controller.tabController!.indexIsChanging) {
+          String selectedCategory = controller
+                  .allCategoriesList[controller.tabController!.index].text ??
+              'All';
+          controller.filterBooksByCategory(selectedCategory);
+        }
+      });
+    }
   }
 
   TextEditingController searchcontroller = TextEditingController();
@@ -151,7 +158,7 @@ class _HomePageState extends State<HomePage>
                                       //         fontWeight: FontWeight.w300)),
                                       //!Search Field
                                       Padding(
-                                        padding:  EdgeInsets.only(
+                                        padding: EdgeInsets.only(
                                             right: 20.0, top: 10.h),
                                         child: TextFormField(
                                           onTap: () {

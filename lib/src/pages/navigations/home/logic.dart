@@ -2,6 +2,7 @@ import 'package:book_store/src/models/book.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../models/appconfigs.dart';
 import '../../../models/bookprices.dart';
 
 class HomeLogic extends GetxController {
@@ -16,16 +17,16 @@ class HomeLogic extends GetxController {
 
   List<BookModel> allBooks = [];
 
-  RxList<PriceCategory> priceCategories = RxList<PriceCategory>();
+  RxList<PriceRange> priceRange = RxList<PriceRange>();
 
-  void setPriceCategories(List<PriceCategory> categories) {
-    priceCategories.assignAll(categories);
+  void setPriceCategories(List<PriceRange> categories) {
+    priceRange.assignAll(categories);
   }
 
   double getPriceByName(String categoryName) {
-    PriceCategory? category = priceCategories.firstWhere(
+    PriceRange? category = priceRange.firstWhere(
         (category) => category.name == categoryName,
-        orElse: () => PriceCategory(name: '', price: 1.99));
+        orElse: () => PriceRange(name: '', price: 1.99));
     return category.price;
   }
 

@@ -55,8 +55,9 @@ class _BookWidgetState extends State<BookWidget> {
             height: 5,
           ),
           Text(widget.bookModel.name,
-              style: const TextStyle(
-                  color: Colors.black, fontWeight: FontWeight.bold)),
+          textAlign: TextAlign.center,
+              style:  TextStyle(
+                  color: Colors.black, fontWeight: FontWeight.bold,fontSize: 12.sp)),
           Text('\$${homeController.getPriceByName(widget.bookModel.pricecategories)}',
               style: const TextStyle(color: Colors.black))
         ],

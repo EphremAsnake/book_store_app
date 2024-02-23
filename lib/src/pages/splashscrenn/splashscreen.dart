@@ -16,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    configController.fetchData();
+    configController.fetchData(context);
     configController.appConfigFetched.listen((value) {
       if (value) {
         Get.offAllNamed('/navigationPage');
