@@ -118,16 +118,10 @@ class DownloadButtonState extends State<DownloadButton>
             height: 55.h,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
-                color: Colors.white,
-               
+                color: AppColors.primarycolor2,
                 borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.white.withOpacity(0.5),
-                      spreadRadius: -23,
-                      blurRadius: 30,
-                      offset: const Offset(30, 0))
-                ]),
+                
+                ),
             child: Stack(
               children: [
                 Center(
@@ -147,7 +141,7 @@ class DownloadButtonState extends State<DownloadButton>
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16.sp,
-                                        color: AppColors.primarycolor2),
+                                        color: Colors.white),
                                   )
                                 : _isDownloading
                                     ? AnimatedBuilder(
@@ -184,7 +178,7 @@ class DownloadButtonState extends State<DownloadButton>
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 16.sp,
-                                            color: AppColors.primarycolor2),
+                                            color: Colors.white),
                                       ),
                             // GestureDetector(
                             //     onTap: _onDownloadPressed,

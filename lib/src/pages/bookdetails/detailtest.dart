@@ -18,16 +18,15 @@ import '../navigations/home/logic.dart';
 import '../subscription/components/status.dart';
 import '../subscription/subscription.dart';
 
-// ignore: must_be_immutable
-class BookDetails extends StatefulWidget {
+class BookDetailTest extends StatefulWidget {
   BookModel bookModel;
-  BookDetails({super.key, required this.bookModel});
+  BookDetailTest({super.key, required this.bookModel});
 
   @override
-  State<BookDetails> createState() => _BookDetailsState();
+  State<BookDetailTest> createState() => _BookDetailTestState();
 }
 
-class _BookDetailsState extends State<BookDetails> {
+class _BookDetailTestState extends State<BookDetailTest> {
   final controller = Get.put(HomeLogic());
   final appconfigsController = Get.put(AppConfigController());
   final InAppPurchase _inAppPurchase = InAppPurchase.instance;

@@ -4,12 +4,17 @@ import 'package:resize/resize.dart';
 
 class MyCustomBottomBar extends StatefulWidget {
   const MyCustomBottomBar(
-      {Key? key, required this.title, required this.disable, this.secline})
+      {Key? key,
+      required this.title,
+      this.first,
+      required this.disable,
+      this.secline})
       : super(key: key);
 
   final String? title;
   final String? secline;
   final bool? disable;
+  final bool? first;
 
   @override
   MyCustomBottomBarState createState() => MyCustomBottomBarState();
@@ -26,13 +31,12 @@ class MyCustomBottomBarState extends State<MyCustomBottomBar> {
           height: 55.h,
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
-              // color: AppColors.primaryColor,
-              gradient: const LinearGradient(colors: [
-                AppColors.primarycolor2,
-                AppColors.secondarycolor,
-                AppColors.thcolor
-              ]),
+              color:
+                  widget.first != null ? Colors.white : AppColors.primarycolor2,
               borderRadius: BorderRadius.circular(10),
+              border: widget.first != null
+                  ? Border.all(width: 2, color: AppColors.primarycolor2)
+                  : null,
               boxShadow: [
                 BoxShadow(
                     color: Colors.white.withOpacity(0.7),
@@ -57,7 +61,9 @@ class MyCustomBottomBarState extends State<MyCustomBottomBar> {
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 14.sp,
-                                color: Colors.white),
+                                color: widget.first != null
+                                    ? AppColors.primarycolor2
+                                    : Colors.white),
                           ),
                           if (widget.secline != null)
                             Text(

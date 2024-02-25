@@ -15,6 +15,7 @@ import '../../../controller/downloadcontroller.dart';
 import '../../../services/apicalls.dart';
 import '../../../services/repos/functions.dart';
 import '../../../widgets/book.dart';
+import '../../bookdetails/detailtest.dart';
 import '../../searchbooks/searchpage.dart';
 import '../../subscription/IAPservices.dart';
 import 'component/silverappbar.dart';
@@ -310,7 +311,7 @@ class _HomePageState extends State<HomePage>
                                     //borderRadius: BorderRadius.circular(12.0),
                                     splashColor: Colors.grey,
                                     onTap: () {
-                                      Get.to(BookDetails(
+                                      Get.to(BookDetailTest(
                                           bookModel: controller
                                               .filteredBooks[itemIndex]));
                                     },

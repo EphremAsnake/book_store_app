@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:book_store/src/models/book.dart';
 import 'package:book_store/src/utils/constants/colors.dart';
@@ -6,13 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 
-import '../../models/bookprices.dart';
-import '../../models/categories.dart';
 import '../../pages/navigations/home/logic.dart';
 import '../../utils/constants/strings.dart';
-import '../../utils/constants/urls.dart';
 import '../../widgets/customdialog.dart';
-import '../apicalls.dart';
 
 Logger log = Logger();
 
