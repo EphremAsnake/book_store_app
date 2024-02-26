@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../models/appconfigs.dart';
-import '../../../models/bookprices.dart';
 
 class HomeLogic extends GetxController {
   //var categories = [].obs;
@@ -26,8 +25,15 @@ class HomeLogic extends GetxController {
   double getPriceByName(String categoryName) {
     PriceRange? category = priceRange.firstWhere(
         (category) => category.name == categoryName,
-        orElse: () => PriceRange(name: '', price: 1.99));
+        orElse: () => PriceRange(name: '', price: 1.99, productid: ""));
     return category.price;
+  }
+
+  String getproductByName(String categoryName) {
+    PriceRange? category = priceRange.firstWhere(
+        (category) => category.name == categoryName,
+        orElse: () => PriceRange(name: '', price: 1.99, productid: ""));
+    return category.productid;
   }
 
   RxList<BookModel> filteredBooks = <BookModel>[].obs;

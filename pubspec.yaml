@@ -26,7 +26,7 @@ dependencies:
   resize: ^1.0.0
   shared_preferences: ^2.2.2
   skeleton_loader: ^2.0.0+4
-  syncfusion_flutter_pdfviewer: ^24.2.5
+  syncfusion_flutter_pdfviewer: ^20.2.7
   url_launcher: ^6.2.4
 
 dev_dependencies:

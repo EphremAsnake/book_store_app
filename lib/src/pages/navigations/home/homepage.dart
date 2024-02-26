@@ -6,6 +6,7 @@ import 'package:book_store/src/utils/constants/colors.dart';
 import 'package:book_store/src/utils/constants/urls.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:resize/resize.dart';
 import 'package:skeleton_loader/skeleton_loader.dart';
@@ -16,7 +17,7 @@ import '../../../services/apicalls.dart';
 import '../../../services/repos/functions.dart';
 import '../../../widgets/book.dart';
 import '../../searchbooks/searchpage.dart';
-import '../../subscription/IAPservices.dart';
+import '../../inapppurchase/subscription/IAPservices.dart';
 import 'component/silverappbar.dart';
 import 'logic.dart';
 
@@ -119,12 +120,18 @@ class _HomePageState extends State<HomePage>
                 appBar: AppBar(
                   notificationPredicate: (_) => false,
                   backgroundColor: AppColors.primarycolor2,
-                  title: Text(
-                    'The Best Books For You!',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 25.h,
-                        fontWeight: FontWeight.bold),
+                  title: InkWell(
+                    onTap: () {
+                      print(GetStorage().read('onWaybookID'));
+
+                    },
+                    child: Text(
+                      'The Best Books For You!',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 25.h,
+                          fontWeight: FontWeight.bold),
+                    ),
                   ),
                   centerTitle: true,
                 ),

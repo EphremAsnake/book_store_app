@@ -5,10 +5,10 @@ import 'package:book_store/src/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
-import '../../controller/appconfigs.dart';
-import '../../controller/subscriptionController.dart';
-import '../../utils/constants/strings.dart';
-import '../../widgets/subscriptionbutton.dart';
+import '../../../controller/appconfigs.dart';
+import '../../../controller/subscriptionController.dart';
+import '../../../utils/constants/strings.dart';
+import '../../../widgets/subscriptionbutton.dart';
 import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 
 import 'components/status.dart';

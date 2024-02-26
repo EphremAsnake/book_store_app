@@ -1,13 +1,16 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 // ignore: depend_on_referenced_packages
 import 'package:in_app_purchase_android/in_app_purchase_android.dart';
+import 'package:logger/logger.dart';
 import 'dart:io' show Platform;
 
-import '../../controller/subscriptionController.dart';
-import '../../utils/constants/strings.dart';
+import '../../../controller/subscriptionController.dart';
+import '../../../utils/constants/strings.dart';
+import '../purchase/bookpurchase.dart';
 import 'components/status.dart';
 
 class IAPService {
@@ -15,7 +18,7 @@ class IAPService {
   final String yearlyProductId;
 
   IAPService({required this.monthlyProductId, required this.yearlyProductId});
-
+  final purchaseController = Get.put(PurchasedBooksController());
   SubscriptionController subscriptionController =
       Get.put(SubscriptionController());
   final SubscriptionStatus subscriptionStatus = Get.put(SubscriptionStatus());
@@ -128,8 +131,7 @@ class IAPService {
 
         subscriptionController.hideProgress();
       }
-    }
-    if (purchaseDetails.productID == yearlyProductId) {
+    } else if (purchaseDetails.productID == yearlyProductId) {
       if (Platform.isAndroid) {
         Map purchaseData =
             json.decode(purchaseDetails.verificationData.localVerificationData);
@@ -174,6 +176,11 @@ class IAPService {
 
         subscriptionController.hideProgress();
       }
+    } else {
+      //!Individual book Purchase
+      Logger logger = Logger();
+      logger.e("purchase message");
+      purchaseController.addPurchasedBook(GetStorage().read('onWaybookID'));
     }
   }
 

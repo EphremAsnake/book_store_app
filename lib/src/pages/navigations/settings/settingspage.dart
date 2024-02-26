@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:book_store/src/pages/subscription/subscription.dart';
+import 'package:book_store/src/pages/inapppurchase/subscription/subscription.dart';
 import 'package:book_store/src/utils/constants/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +11,7 @@ import '../../../controller/appconfigs.dart';
 import '../../../controller/downloadcontroller.dart';
 import '../../../widgets/downloadeditem.dart';
 import '../../../widgets/downloadsgroup.dart';
-import '../../subscription/components/status.dart';
+import '../../inapppurchase/subscription/components/status.dart';
 import '../../view/pdfview.dart';
 import 'components/babstrap_settings_screen.dart';
 

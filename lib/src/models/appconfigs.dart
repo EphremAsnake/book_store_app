@@ -40,8 +40,14 @@ class PlatformSettings {
       houseAd: HouseAd.fromJson(json['house_ad'] ?? {}),
       aboutApp: json['about_app'] ?? "",
       fallbackServerUrl: json['fallback_server_url'] ?? "",
-      categories: (json['Categories'] as List<dynamic>?)?.map((e) => Category.fromJson(e)).toList() ?? [],
-      priceRange: (json['priceRange'] as List<dynamic>?)?.map((e) => PriceRange.fromJson(e)).toList() ?? [],
+      categories: (json['Categories'] as List<dynamic>?)
+              ?.map((e) => Category.fromJson(e))
+              .toList() ??
+          [],
+      priceRange: (json['priceRange'] as List<dynamic>?)
+              ?.map((e) => PriceRange.fromJson(e))
+              .toList() ??
+          [],
     );
   }
 }
@@ -128,18 +134,19 @@ class Category {
   }
 }
 
-
 class PriceRange {
   final String name;
   final double price;
+  final String productid;
 
-  PriceRange({required this.name, required this.price});
+  PriceRange(
+      {required this.name, required this.price, required this.productid});
 
   factory PriceRange.fromJson(Map<String, dynamic> json) {
     return PriceRange(
-      name: json['name'] ?? "",
-      price: json['price'] ?? 1.99,
-    );
+        name: json['name'] ?? "",
+        price: json['price'] ?? 1.99,
+        productid: json['productID'] ?? "");
   }
 }
 
