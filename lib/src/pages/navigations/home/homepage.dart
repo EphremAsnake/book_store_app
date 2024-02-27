@@ -122,8 +122,7 @@ class _HomePageState extends State<HomePage>
                   backgroundColor: AppColors.primarycolor2,
                   title: InkWell(
                     onTap: () {
-                     // print(GetStorage().read('onWaybookID'));
-
+                      // print(GetStorage().read('onWaybookID'));
                     },
                     child: Text(
                       'The Best Books For You!',
@@ -375,8 +374,8 @@ class _HomePageState extends State<HomePage>
                                                         horizontal: 10,
                                                         vertical: 10),
                                                     child: Container(
-                                                      height: 180.h,
-                                                      width: 150.w,
+                                                      height: 160.h,
+                                                      width: 100.w,
                                                       decoration: BoxDecoration(
                                                           color: AppColors
                                                               .primaryColor,
@@ -391,8 +390,24 @@ class _HomePageState extends State<HomePage>
                                                         horizontal: 10,
                                                         vertical: 10),
                                                     child: Container(
-                                                      height: 180.h,
-                                                      width: 150.w,
+                                                      height: 160.h,
+                                                      width: 100.w,
+                                                      decoration: BoxDecoration(
+                                                          color: AppColors
+                                                              .primaryColor,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(8)),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 10,
+                                                        vertical: 10),
+                                                    child: Container(
+                                                      height: 160.h,
+                                                      width: 100.w,
                                                       decoration: BoxDecoration(
                                                           color: AppColors
                                                               .primaryColor,

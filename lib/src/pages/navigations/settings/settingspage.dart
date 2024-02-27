@@ -260,7 +260,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                                     //_launchURL();
                                                   },
                                                   icons: CupertinoIcons
-                                                      .profile_circled,
+                                                      .signature,
                                                   iconStyle: IconStyle(
                                                       backgroundColor:
                                                           Colors.orange),
