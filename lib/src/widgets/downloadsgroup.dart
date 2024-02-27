@@ -48,28 +48,30 @@ class DownloadsGroup extends StatelessWidget {
                 )
               : Container(),
           // The SettingsGroup sections
-          InkWell(
-            splashColor: Colors.red,
-            onTap: () => onTap(),
-            child: Padding(
-              padding: const EdgeInsets.all(3.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(8.r),
-                  border: Border.all(color: Colors.grey)
-                ),
-                child: ListView.separated(
-                  separatorBuilder: (context, index) {
-                    return const Divider();
-                  },
-                  itemCount: items.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return items[index];
-                  },
-                  shrinkWrap: true,
-                  padding: EdgeInsets.zero,
-                  physics: const ScrollPhysics(),
+          Material(
+            type: MaterialType.transparency,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(8.r),
+              onTap: () => onTap(),
+              child: Padding(
+                padding: const EdgeInsets.all(3.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(8.r),
+                      border: Border.all(color: Colors.grey)),
+                  child: ListView.separated(
+                    separatorBuilder: (context, index) {
+                      return const Divider();
+                    },
+                    itemCount: items.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return items[index];
+                    },
+                    shrinkWrap: true,
+                    padding: EdgeInsets.zero,
+                    physics: const ScrollPhysics(),
+                  ),
                 ),
               ),
             ),

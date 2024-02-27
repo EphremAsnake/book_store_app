@@ -86,6 +86,8 @@ class DownloadButtonState extends State<DownloadButton>
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      borderRadius: BorderRadius.circular(8.r),
+      splashColor: Colors.green,
       onTap: () {
         controller.isBookDownloaded(widget.bookModel.id.toString())
             ? Get.to(BookView(
@@ -111,7 +113,7 @@ class DownloadButtonState extends State<DownloadButton>
               });
       },
       child: Padding(
-        padding: const EdgeInsets.all(2.0),
+        padding: const EdgeInsets.all(3.0),
         child: Container(
           color: Colors.transparent,
           child: Container(
@@ -119,7 +121,7 @@ class DownloadButtonState extends State<DownloadButton>
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
                 color: AppColors.primarycolor2,
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(8.r),
                 
                 ),
             child: Stack(

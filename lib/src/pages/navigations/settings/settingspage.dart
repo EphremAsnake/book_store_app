@@ -14,6 +14,7 @@ import '../../../widgets/downloadsgroup.dart';
 import '../../inapppurchase/purchase/bookpurchase.dart';
 import '../../inapppurchase/subscription/components/status.dart';
 import '../../view/pdfview.dart';
+import '../../webview/inappwebview.dart';
 import 'components/babstrap_settings_screen.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -239,20 +240,24 @@ class _SettingsPageState extends State<SettingsPage> {
                                                 ),
                                                 SettingsItem(
                                                   onTap: () {
-                                                    _launchURL(Platform
-                                                            .isAndroid
-                                                        ? appconfigsController
-                                                            .appConfig
-                                                            .value!
-                                                            .androidSettings
-                                                            .subscriptionSettings
-                                                            .termOfUseUrl
-                                                        : appconfigsController
-                                                            .appConfig
-                                                            .value!
-                                                            .iosSettings
-                                                            .subscriptionSettings
-                                                            .termOfUseUrl);
+                                                    Get.to(InAppWebView(
+                                                        title:
+                                                            "Terms and Conditions",
+                                                        webUrl: Platform
+                                                                .isAndroid
+                                                            ? appconfigsController
+                                                                .appConfig
+                                                                .value!
+                                                                .androidSettings
+                                                                .subscriptionSettings
+                                                                .termOfUseUrl
+                                                            : appconfigsController
+                                                                .appConfig
+                                                                .value!
+                                                                .iosSettings
+                                                                .subscriptionSettings
+                                                                .termOfUseUrl));
+                                                    //_launchURL();
                                                   },
                                                   icons: CupertinoIcons
                                                       .profile_circled,
@@ -266,20 +271,23 @@ class _SettingsPageState extends State<SettingsPage> {
                                                 ),
                                                 SettingsItem(
                                                   onTap: () {
-                                                    _launchURL(Platform
-                                                            .isAndroid
-                                                        ? appconfigsController
-                                                            .appConfig
-                                                            .value!
-                                                            .androidSettings
-                                                            .subscriptionSettings
-                                                            .privacyPolicyUrl
-                                                        : appconfigsController
-                                                            .appConfig
-                                                            .value!
-                                                            .iosSettings
-                                                            .subscriptionSettings
-                                                            .privacyPolicyUrl);
+                                                    Get.to(InAppWebView(
+                                                      title: "Privacy Policy",
+                                                      webUrl: Platform.isAndroid
+                                                          ? appconfigsController
+                                                              .appConfig
+                                                              .value!
+                                                              .androidSettings
+                                                              .subscriptionSettings
+                                                              .privacyPolicyUrl
+                                                          : appconfigsController
+                                                              .appConfig
+                                                              .value!
+                                                              .iosSettings
+                                                              .subscriptionSettings
+                                                              .privacyPolicyUrl,
+                                                    ));
+                                                    //_launchURL();
                                                   },
                                                   icons: Icons.privacy_tip,
                                                   iconStyle: IconStyle(

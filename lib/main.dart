@@ -16,6 +16,7 @@ Future<void> main() async {
   Get.put(DownloadedBooksController());
   Get.put(AppConfigController());
   Get.put(PurchasedBooksController());
+  
   runApp(const MyApp());
 }
 
