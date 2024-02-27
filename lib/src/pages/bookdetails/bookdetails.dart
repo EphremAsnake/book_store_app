@@ -305,7 +305,7 @@ class _BookDetailsState extends State<BookDetails> {
                                           );
                                         }
 
-                                        InAppPurchase.instance.buyNonConsumable(
+                                        InAppPurchase.instance.buyConsumable(
                                           purchaseParam: purchaseParam,
                                         );
                                       } else {

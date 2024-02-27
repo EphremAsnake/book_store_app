@@ -181,6 +181,7 @@ class IAPService {
       Logger logger = Logger();
       logger.e("purchase message");
       purchaseController.addPurchasedBook(GetStorage().read('onWaybookID'));
+      purchaseController.update();
     }
   }
 

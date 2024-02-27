@@ -11,6 +11,7 @@ import '../../../controller/appconfigs.dart';
 import '../../../controller/downloadcontroller.dart';
 import '../../../widgets/downloadeditem.dart';
 import '../../../widgets/downloadsgroup.dart';
+import '../../inapppurchase/purchase/bookpurchase.dart';
 import '../../inapppurchase/subscription/components/status.dart';
 import '../../view/pdfview.dart';
 import 'components/babstrap_settings_screen.dart';
@@ -27,6 +28,7 @@ class _SettingsPageState extends State<SettingsPage> {
   late List<DownloadedBook> downloadedBooks;
   final bookDownloaderController = Get.put(DownloadedBooksController());
   final appconfigsController = Get.put(AppConfigController());
+  final purchaseController = Get.put(PurchasedBooksController());
   final SubscriptionStatus subscriptionStatus = Get.put(SubscriptionStatus());
 
   @override
@@ -47,8 +49,8 @@ class _SettingsPageState extends State<SettingsPage> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          notificationPredicate: (_) => false,
-          backgroundColor: AppColors.primarycolor2),
+            notificationPredicate: (_) => false,
+            backgroundColor: AppColors.primarycolor2),
         body: SingleChildScrollView(
           physics: const NeverScrollableScrollPhysics(),
           child: Column(children: [
@@ -64,15 +66,15 @@ class _SettingsPageState extends State<SettingsPage> {
                         height: MediaQuery.of(context).size.height * 0.1,
                         width: MediaQuery.of(context).size.width,
                         decoration: const BoxDecoration(
-                            color: AppColors.primarycolor2,
-                            
-                            // image: const DecorationImage(
-                            //     alignment: Alignment.topCenter,
-                            //     fit: BoxFit.cover,
-                            //     image: AssetImage(
-                            //       'assets/images/back2.jpg',
-                            //     ))
-                            ),
+                          color: AppColors.primarycolor2,
+
+                          // image: const DecorationImage(
+                          //     alignment: Alignment.topCenter,
+                          //     fit: BoxFit.cover,
+                          //     image: AssetImage(
+                          //       'assets/images/back2.jpg',
+                          //     ))
+                        ),
                         child: Center(
                           child: Padding(
                             padding: EdgeInsets.only(
@@ -329,7 +331,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                           horizontal: 20.h),
                                       child: Padding(
                                         padding: const EdgeInsets.fromLTRB(
-                                            10, 20, 10, 10),
+                                            10, 0, 10, 10),
                                         child: ListView(
                                           physics:
                                               const BouncingScrollPhysics(),
@@ -368,7 +370,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                               ],
                                             ),
                                             const SizedBox(
-                                              height: 10,
+                                              height: 20,
                                             ),
                                             ListView.builder(
                                                 shrinkWrap: true,
@@ -383,16 +385,27 @@ class _SettingsPageState extends State<SettingsPage> {
                                                               .isMonthly
                                                               .value ||
                                                           subscriptionStatus
-                                                              .isYearly.value
+                                                              .isYearly.value ||
+                                                          purchaseController
+                                                              .isBookPurchased(
+                                                                  int.parse(
+                                                                      book.id))
                                                       ? DownloadsGroup(
+                                                          onTap: () {
+                                                            Get.to(BookView(
+                                                                filepath:
+                                                                    book.path,
+                                                                booktitle:
+                                                                    book.name));
+                                                          },
                                                           items: [
                                                             DownloadedItem(
                                                               onTap: () {
-                                                                Get.to(BookView(
-                                                                    filepath: book
-                                                                        .path,
-                                                                    booktitle: book
-                                                                        .name));
+                                                                // Get.to(BookView(
+                                                                //     filepath: book
+                                                                //         .path,
+                                                                //     booktitle: book
+                                                                //         .name));
                                                               },
                                                               title: book.name,
                                                               author:

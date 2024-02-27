@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:resize/resize.dart';
 
 import '../pages/navigations/settings/components/babstrap_settings_screen.dart';
 import 'downloadeditem.dart';
@@ -10,6 +11,7 @@ class DownloadsGroup extends StatelessWidget {
   final TextStyle? settingsGroupTitleStyle;
   final List<DownloadedItem> items;
   final EdgeInsets? margin;
+  final Function onTap;
   // Icons size
   final double? iconItemSize;
 
@@ -17,6 +19,7 @@ class DownloadsGroup extends StatelessWidget {
       {this.settingsGroupTitle,
       this.settingsGroupTitleStyle,
       required this.items,
+      required this.onTap,
       this.margin,
       this.iconItemSize = 25});
 
@@ -45,22 +48,30 @@ class DownloadsGroup extends StatelessWidget {
                 )
               : Container(),
           // The SettingsGroup sections
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: ListView.separated(
-              separatorBuilder: (context, index) {
-                return const Divider();
-              },
-              itemCount: items.length,
-              itemBuilder: (BuildContext context, int index) {
-                return items[index];
-              },
-              shrinkWrap: true,
-              padding: EdgeInsets.zero,
-              physics: const ScrollPhysics(),
+          InkWell(
+            splashColor: Colors.red,
+            onTap: () => onTap(),
+            child: Padding(
+              padding: const EdgeInsets.all(3.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8.r),
+                  border: Border.all(color: Colors.grey)
+                ),
+                child: ListView.separated(
+                  separatorBuilder: (context, index) {
+                    return const Divider();
+                  },
+                  itemCount: items.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return items[index];
+                  },
+                  shrinkWrap: true,
+                  padding: EdgeInsets.zero,
+                  physics: const ScrollPhysics(),
+                ),
+              ),
             ),
           ),
         ],

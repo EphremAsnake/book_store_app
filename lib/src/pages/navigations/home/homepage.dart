@@ -122,7 +122,7 @@ class _HomePageState extends State<HomePage>
                   backgroundColor: AppColors.primarycolor2,
                   title: InkWell(
                     onTap: () {
-                      print(GetStorage().read('onWaybookID'));
+                     // print(GetStorage().read('onWaybookID'));
 
                     },
                     child: Text(

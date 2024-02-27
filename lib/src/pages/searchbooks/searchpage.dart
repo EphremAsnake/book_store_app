@@ -240,18 +240,27 @@ class _SearchPageState extends State<SearchPage> {
                                       if (book.name.toLowerCase().contains(
                                           searchController.text
                                               .toLowerCase())) {
-                                        return DownloadsGroup(
-                                          items: [
-                                            DownloadedItem(
-                                              onTap: () {
-                                                Get.to(BookDetails(
-                                                    bookModel: _filteredBooks[index]));
-                                              },
-                                              title: book.name,
-                                              author: book.author,
-                                              imageUrl: book.thumbnailUrl,
-                                            ),
-                                          ],
+                                        return Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal:20.0),
+                                          child: DownloadsGroup(
+                                            onTap: () {
+                                              Get.to(BookDetails(
+                                                  bookModel:
+                                                      _filteredBooks[index]));
+                                            },
+                                            items: [
+                                              DownloadedItem(
+                                                onTap: () {
+                                                  // Get.to(BookDetails(
+                                                  //     bookModel:
+                                                  //         _filteredBooks[index]));
+                                                },
+                                                title: book.name,
+                                                author: book.author,
+                                                imageUrl: book.thumbnailUrl,
+                                              ),
+                                            ],
+                                          ),
                                         );
                                       } else {
                                         return const SizedBox.shrink();

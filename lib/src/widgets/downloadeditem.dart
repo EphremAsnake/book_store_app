@@ -5,6 +5,7 @@ import 'package:resize/resize.dart';
 import '../pages/navigations/settings/components/src/icon_style.dart';
 import '../pages/navigations/settings/components/src/settings_screen_utils.dart';
 
+// ignore: must_be_immutable
 class DownloadedItem extends StatelessWidget {
   final String imageUrl;
   final String title;
@@ -19,7 +20,7 @@ class DownloadedItem extends StatelessWidget {
   final TextOverflow? overflow;
 
   DownloadedItem(
-      {super.key,
+      {Key? key,
       required this.title,
       this.titleStyle,
       this.author,
@@ -36,38 +37,52 @@ class DownloadedItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(15),
-      child: InkWell(
-        onTap: () => onTap(),
-        child: ListTile(
-          visualDensity: const VisualDensity(vertical: 4, horizontal: 1),
-          leading: CachedNetworkImage(
-            imageUrl: imageUrl,
-            width: 100.h,
-            height: 150.h,
-            fit: BoxFit.fill,
-            placeholder: (context, url) => const CircularProgressIndicator(
-              color: Colors.transparent,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        decoration: BoxDecoration(
+            color: backgroundColor, ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            CachedNetworkImage(
+              imageUrl: imageUrl,
+              width: 80.h,
+              height: 100.h,
+              fit: BoxFit.fill,
+              placeholder: (context, url) => const CircularProgressIndicator(
+                color: Colors.transparent,
+              ),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
-            errorWidget: (context, url, error) => const Icon(Icons.error),
-          ),
-          title: Text(
-            title,
-            style: titleStyle ?? const TextStyle(fontWeight: FontWeight.bold),
-            maxLines: titleMaxLine,
-            overflow: titleMaxLine != null ? overflow : null,
-          ),
-          subtitle: (author != null)
-              ? Text(
-                  author!,
-                  style:
-                      subtitleStyle ?? Theme.of(context).textTheme.bodyMedium!,
-                  maxLines: subtitleMaxLine ?? 1,
-                  overflow:
-                      subtitleMaxLine != null ? TextOverflow.ellipsis : null,
-                )
-              : null,
-          trailing:
-              (trailing != null) ? trailing : const Icon(Icons.navigate_next),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    title,
+                    style: titleStyle ??
+                        const TextStyle(fontWeight: FontWeight.bold),
+                    maxLines: titleMaxLine,
+                    overflow: titleMaxLine != null ? overflow : null,
+                  ),
+                  if (author != null) ...[
+                    const SizedBox(height: 4),
+                    Text(
+                      'by ${author!}',
+                      style: subtitleStyle ??
+                          Theme.of(context).textTheme.bodyMedium!,
+                      maxLines: subtitleMaxLine ?? 1,
+                      overflow: subtitleMaxLine != null
+                          ? TextOverflow.ellipsis
+                          : null,
+                    ),
+                  ],
+                ],
+              ),
+            ),
+            if (trailing != null) trailing!,
+          ],
         ),
       ),
     );

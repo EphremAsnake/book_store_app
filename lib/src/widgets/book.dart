@@ -18,11 +18,11 @@ class BookWidget extends StatefulWidget {
 }
 
 class _BookWidgetState extends State<BookWidget> {
- final HomeLogic homeController = Get.find();
+  final HomeLogic homeController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 180.h,
+      height: 190.h,
       width: 150.w,
       decoration: BoxDecoration(
         color: Colors.transparent,
@@ -30,35 +30,37 @@ class _BookWidgetState extends State<BookWidget> {
       ),
       child: Column(
         children: [
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image:
-                      CachedNetworkImageProvider(widget.bookModel.thumbnailUrl),
-                  fit: BoxFit.contain,
-                ),
-                //color: AppColors.primaryColor,
-                borderRadius: BorderRadius.circular(8),
+          Container(
+            height: 150.h,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image:
+                    CachedNetworkImageProvider(widget.bookModel.thumbnailUrl),
+                fit: BoxFit.contain,
               ),
-              // child: Text(
-              //   controller
-              //       .allCategoriesList[
-              //           itemIndex]
-              //       .text!,
-              //   style: TextStyle(
-              //       color: Colors.white),
-              // ),
+              //color: AppColors.primaryColor,
+              borderRadius: BorderRadius.circular(8),
             ),
+            // child: Text(
+            //   controller
+            //       .allCategoriesList[
+            //           itemIndex]
+            //       .text!,
+            //   style: TextStyle(
+            //       color: Colors.white),
+            // ),
           ),
           const SizedBox(
             height: 5,
           ),
           Text(widget.bookModel.name,
-          textAlign: TextAlign.center,
-              style:  TextStyle(
-                  color: Colors.black, fontWeight: FontWeight.bold,fontSize: 12.sp)),
-          Text('\$${homeController.getPriceByName(widget.bookModel.pricecategories)}',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12.sp)),
+          Text(
+              '\$${homeController.getPriceByName(widget.bookModel.pricecategories)}',
               style: const TextStyle(color: Colors.black))
         ],
       ),
