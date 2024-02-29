@@ -1,131 +1,187 @@
-import 'package:book_store/src/utils/constants/colors.dart';
-import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-// Android features.
-import 'package:webview_flutter_android/webview_flutter_android.dart';
-//  iOS features
-import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
+import 'dart:collection';
+import 'dart:io';
 
-class InAppWebView extends StatefulWidget {
+import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+class InAppWebViewPage extends StatefulWidget {
   final String webUrl;
   final String title;
-  const InAppWebView({super.key, required this.webUrl, required this.title});
+  const InAppWebViewPage(
+      {super.key, required this.webUrl, required this.title});
 
   @override
-  State<InAppWebView> createState() => _InAppWebViewState();
+  // ignore: library_private_types_in_public_api
+  _InAppWebViewPageState createState() => _InAppWebViewPageState();
 }
 
-class _InAppWebViewState extends State<InAppWebView> {
-  late final WebViewController _controller;
-  bool loadingpage = false;
+class _InAppWebViewPageState extends State<InAppWebViewPage> {
+  final GlobalKey webViewKey = GlobalKey();
+
+  InAppWebViewController? webViewController;
+  InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
+      crossPlatform: InAppWebViewOptions(
+        useShouldOverrideUrlLoading: true,
+        mediaPlaybackRequiresUserGesture: false,
+      ),
+      android: AndroidInAppWebViewOptions(
+        useHybridComposition: true,
+      ),
+      ios: IOSInAppWebViewOptions(
+        allowsInlineMediaPlayback: true,
+      ));
+
+  late PullToRefreshController pullToRefreshController;
+  late ContextMenu contextMenu;
+  String url = "";
+  double progress = 0;
+  final urlController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    // #docregion platform_features
-    late final PlatformWebViewControllerCreationParams params;
-    if (WebViewPlatform.instance is WebKitWebViewPlatform) {
-      params = WebKitWebViewControllerCreationParams(
-        allowsInlineMediaPlayback: true,
-        mediaTypesRequiringUserAction: const <PlaybackMediaTypes>{},
-      );
-    } else {
-      params = const PlatformWebViewControllerCreationParams();
-    }
 
-    final WebViewController controller =
-        WebViewController.fromPlatformCreationParams(params);
-    // #enddocregion platform_features
-
-    controller
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setBackgroundColor(const Color(0x00000000))
-      ..setNavigationDelegate(
-        NavigationDelegate(
-          onProgress: (int progress) {
-            setState(() {
-              loadingpage = true;
-            });
-            //checkInternetConnection();
-            debugPrint('WebView is loading (progress : $progress%)');
-          },
-          onPageStarted: (String url) {
-            loadingpage = true;
-            debugPrint('Page started loading: $url');
-          },
-          onPageFinished: (String url) {
-            loadingpage = false;
-            debugPrint('Page finished loading: $url');
-          },
-          onWebResourceError: (WebResourceError error) {
-            debugPrint('''
-            Page resource error:
-              code: ${error.errorCode}
-              description: ${error.description}
-              errorType: ${error.errorType}
-              isForMainFrame: ${error.isForMainFrame}
-                      ''');
-          },
-          onNavigationRequest: (NavigationRequest request) {
-            if (request.url.startsWith(widget.webUrl)) {
-              // Navigator.of(context).pushAndRemoveUntil(
-              //     MaterialPageRoute(builder: (context) => const WebViewExample()),
-              //     (Route<dynamic> route) => false);
-              debugPrint('blocking navigation to ${request.url}');
-              return NavigationDecision.prevent;
-            }
-            debugPrint('allowing navigation to ${request.url}');
-            return NavigationDecision.navigate;
-          },
-          // onUrlChange: (UrlChange change) {
-          //   if (change.url.toString().contains(
-          //       widget.webUrl)) {
-
-          //   }
-          //   debugPrint('url change to ${change.url}');
-          // },
-        ),
-      )
-      ..addJavaScriptChannel(
-        'Toaster',
-        onMessageReceived: (JavaScriptMessage message) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(message.message)),
-          );
+    contextMenu = ContextMenu(
+        menuItems: [
+          ContextMenuItem(
+              androidId: 1,
+              iosId: "1",
+              title: "Special",
+              action: () async {
+                print(await webViewController?.getSelectedText());
+                await webViewController?.clearFocus();
+              })
+        ],
+        options: ContextMenuOptions(hideDefaultSystemContextMenuItems: false),
+        onCreateContextMenu: (hitTestResult) async {
+          print(hitTestResult.extra);
+          print(await webViewController?.getSelectedText());
         },
-      )
-      ..loadRequest(Uri.parse(widget.webUrl));
+        onHideContextMenu: () {},
+        onContextMenuActionItemClicked: (contextMenuItemClicked) async {
+          var id = (Platform.isAndroid)
+              ? contextMenuItemClicked.androidId
+              : contextMenuItemClicked.iosId;
+          print("onContextMenuActionItemClicked: " +
+              id.toString() +
+              " " +
+              contextMenuItemClicked.title);
+        });
 
-    // #docregion platform_features
-    if (controller.platform is AndroidWebViewController) {
-      AndroidWebViewController.enableDebugging(true);
-      (controller.platform as AndroidWebViewController)
-          .setMediaPlaybackRequiresUserGesture(false);
-    }
-
-    _controller = controller;
+    pullToRefreshController = PullToRefreshController(
+      options: PullToRefreshOptions(
+        color: Colors.blue,
+      ),
+      onRefresh: () async {
+        if (Platform.isAndroid) {
+          webViewController?.reload();
+        } else if (Platform.isIOS) {
+          webViewController?.loadUrl(
+              urlRequest: URLRequest(url: await webViewController?.getUrl()));
+        }
+      },
+    );
   }
 
-  Color appBarColor = const Color(0xFF2F749C);
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        //backgroundColor: appBarColor,
-        elevation: 0,
-        title: Text(widget.title),
-        centerTitle: true,
-      ),
-      body: loadingpage
-          ? const Center(
-              child: CircularProgressIndicator(
-              color: AppColors.primarycolor2,
-            ))
-          : WebViewWidget(
-              controller: _controller,
+        body: SafeArea(
+            child: Column(children: <Widget>[
+      Expanded(
+        child: Stack(
+          children: [
+            InAppWebView(
+              key: webViewKey,
+              // contextMenu: contextMenu,
+              initialUrlRequest: URLRequest(
+                url: Uri.parse(widget.webUrl),
+              ),
+              // initialFile: "assets/index.html",
+              initialUserScripts: UnmodifiableListView<UserScript>([]),
+              initialOptions: options,
+              pullToRefreshController: pullToRefreshController,
+              onWebViewCreated: (controller) {
+                webViewController = controller;
+              },
+              onLoadStart: (controller, url) {
+                setState(() {
+                  this.url = url.toString();
+                  urlController.text = this.url;
+                });
+              },
+              androidOnPermissionRequest:
+                  (controller, origin, resources) async {
+                return PermissionRequestResponse(
+                    resources: resources,
+                    action: PermissionRequestResponseAction.GRANT);
+              },
+              shouldOverrideUrlLoading: (controller, navigationAction) async {
+                var uri = navigationAction.request.url!;
+
+                if (![
+                  "http",
+                  "https",
+                  "file",
+                  "chrome",
+                  "data",
+                  "javascript",
+                  "about"
+                ].contains(uri.scheme)) {
+                  if (await canLaunch(url)) {
+                    // Launch the App
+                    await launch(
+                      url,
+                    );
+                    // and cancel the request
+                    return NavigationActionPolicy.CANCEL;
+                  }
+                }
+
+                return NavigationActionPolicy.ALLOW;
+              },
+              onLoadStop: (InAppWebViewController controller, Uri? url) async {
+                pullToRefreshController.endRefreshing();
+                setState(() {
+                  this.url = url.toString();
+                  urlController.text = this.url;
+                });
+              },
+              onLoadError: (controller, url, code, message) {
+                pullToRefreshController.endRefreshing();
+              },
+              onProgressChanged: (controller, progress) {
+                if (progress == 100) {
+                  pullToRefreshController.endRefreshing();
+                }
+                setState(() {
+                  this.progress = progress / 100;
+                  urlController.text = this.url;
+                });
+              },
+              onUpdateVisitedHistory: (controller, url, androidIsReload) {
+                setState(() {
+                  this.url = url.toString();
+                  urlController.text = this.url;
+                });
+              },
+              onConsoleMessage: (controller, consoleMessage) {
+                print(consoleMessage);
+              },
             ),
-    );
+            progress < 1.0
+                ? LinearProgressIndicator(value: progress)
+                : Container(),
+          ],
+        ),
+      ),
+    ])));
   }
 }

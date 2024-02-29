@@ -282,44 +282,46 @@ class _BookDetailsState extends State<BookDetails> {
                             child: Row(
                               children: [
                                 Expanded(
-                                  child: InkWell(
-                                    borderRadius: BorderRadius.circular(5.r),
-                                    splashColor: Colors.green,
-                                    onTap: () async {
-                                      final box = GetStorage();
-                                      box.write(
-                                          'onWaybookID', widget.bookModel.id);
-                                      if (gotproductspurchase) {
-                                        late PurchaseParam purchaseParam;
-                                        if (Platform.isAndroid) {
-                                          purchaseParam =
-                                              GooglePlayPurchaseParam(
-                                                  productDetails:
-                                                      _productspurchase[0],
-                                                  changeSubscriptionParam:
-                                                      null);
-                                        } else {
-                                          purchaseParam = PurchaseParam(
-                                            productDetails:
-                                                _productspurchase[0],
+                                  child: Material(
+                                    child: InkWell(
+                                      borderRadius: BorderRadius.circular(8.r),
+                                      splashColor: Colors.green,
+                                      onTap: () async {
+                                        final box = GetStorage();
+                                        box.write(
+                                            'onWaybookID', widget.bookModel.id);
+                                        if (gotproductspurchase) {
+                                          late PurchaseParam purchaseParam;
+                                          if (Platform.isAndroid) {
+                                            purchaseParam =
+                                                GooglePlayPurchaseParam(
+                                                    productDetails:
+                                                        _productspurchase[0],
+                                                    changeSubscriptionParam:
+                                                        null);
+                                          } else {
+                                            purchaseParam = PurchaseParam(
+                                              productDetails:
+                                                  _productspurchase[0],
+                                            );
+                                          }
+                                    
+                                          InAppPurchase.instance.buyConsumable(
+                                            purchaseParam: purchaseParam,
                                           );
+                                        } else {
+                                          initStoreInfopurchase();
                                         }
-
-                                        InAppPurchase.instance.buyConsumable(
-                                          purchaseParam: purchaseParam,
-                                        );
-                                      } else {
-                                        initStoreInfopurchase();
-                                      }
-                                      // Get.to(PurchasePage(
-                                      //   bookModel: widget.bookModel,
-                                      // ));
-                                    },
-                                    child: MyCustomBottomBar(
-                                      title: 'Buy this book',
-                                      secline:
-                                          'for \$${controller.getPriceByName(widget.bookModel.pricecategories)}',
-                                      disable: false,
+                                        // Get.to(PurchasePage(
+                                        //   bookModel: widget.bookModel,
+                                        // ));
+                                      },
+                                      child: MyCustomBottomBar(
+                                        title: 'Buy this book',
+                                        secline:
+                                            'for \$${controller.getPriceByName(widget.bookModel.pricecategories)}',
+                                        disable: false,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -327,39 +329,41 @@ class _BookDetailsState extends State<BookDetails> {
                                   width: 10,
                                 ),
                                 Expanded(
-                                  child: InkWell(
-                                    borderRadius: BorderRadius.circular(5.r),
-                                    splashColor: Colors.green,
-                                    onTap: () async {
-                                      if (gotproducts) {
-                                        late PurchaseParam purchaseParam;
-                                        if (Platform.isAndroid) {
-                                          purchaseParam =
-                                              GooglePlayPurchaseParam(
-                                                  productDetails: _products[0],
-                                                  changeSubscriptionParam:
-                                                      null);
-                                        } else {
-                                          purchaseParam = PurchaseParam(
-                                            productDetails: _products[0],
+                                  child: Material(
+                                    child: InkWell(
+                                      borderRadius: BorderRadius.circular(8.r),
+                                      splashColor: Colors.green,
+                                      onTap: () async {
+                                        if (gotproducts) {
+                                          late PurchaseParam purchaseParam;
+                                          if (Platform.isAndroid) {
+                                            purchaseParam =
+                                                GooglePlayPurchaseParam(
+                                                    productDetails: _products[0],
+                                                    changeSubscriptionParam:
+                                                        null);
+                                          } else {
+                                            purchaseParam = PurchaseParam(
+                                              productDetails: _products[0],
+                                            );
+                                          }
+                                    
+                                          InAppPurchase.instance.buyNonConsumable(
+                                            purchaseParam: purchaseParam,
                                           );
+                                        } else {
+                                          initStoreInfo();
                                         }
-
-                                        InAppPurchase.instance.buyNonConsumable(
-                                          purchaseParam: purchaseParam,
-                                        );
-                                      } else {
-                                        initStoreInfo();
-                                      }
-                                      // Get.to(const SubscriptionPage(
-                                      //     //bookModel: widget.bookModel,
-                                      //     ));
-                                    },
-                                    child: const MyCustomBottomBar(
-                                      first: true,
-                                      title: 'Subscribe',
-                                      secline: '\$2.99/Month',
-                                      disable: false,
+                                        // Get.to(const SubscriptionPage(
+                                        //     //bookModel: widget.bookModel,
+                                        //     ));
+                                      },
+                                      child: const MyCustomBottomBar(
+                                        first: true,
+                                        title: 'Subscribe',
+                                        secline: '\$2.99/Month',
+                                        disable: false,
+                                      ),
                                     ),
                                   ),
                                 ),

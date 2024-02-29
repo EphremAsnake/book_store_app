@@ -50,8 +50,22 @@ class _SettingsPageState extends State<SettingsPage> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-            notificationPredicate: (_) => false,
-            backgroundColor: AppColors.primarycolor2),
+          notificationPredicate: (_) => false,
+          backgroundColor: AppColors.primarycolor2,
+          title: InkWell(
+            onTap: () {
+              // print(GetStorage().read('onWaybookID'));
+            },
+            child: Text(
+              'The Best Books For You!',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 25.h,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+          centerTitle: true,
+        ),
         body: SingleChildScrollView(
           physics: const NeverScrollableScrollPhysics(),
           child: Column(children: [
@@ -59,48 +73,48 @@ class _SettingsPageState extends State<SettingsPage> {
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
                 child: Stack(children: [
-                  Positioned(
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      child: Container(
-                        height: MediaQuery.of(context).size.height * 0.1,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: const BoxDecoration(
-                          color: AppColors.primarycolor2,
+                  // Positioned(
+                  //     top: 0,
+                  //     left: 0,
+                  //     right: 0,
+                  //     child: Container(
+                  //       height: MediaQuery.of(context).size.height * 0.1,
+                  //       width: MediaQuery.of(context).size.width,
+                  //       decoration: const BoxDecoration(
+                  //         color: AppColors.primarycolor2,
 
-                          // image: const DecorationImage(
-                          //     alignment: Alignment.topCenter,
-                          //     fit: BoxFit.cover,
-                          //     image: AssetImage(
-                          //       'assets/images/back2.jpg',
-                          //     ))
-                        ),
-                        child: Center(
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                bottom:
-                                    MediaQuery.of(context).size.height * 0.02),
-                            child: SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.1,
-                                child: Image.asset(
-                                    "assets/images/splashlogo.png")),
-                          ),
-                        ),
-                        // child: Padding(
-                        //   padding: EdgeInsets.only(top: 0),
-                        //   child: SmallUserCard(
-                        //       cardColor: AppColors.primaryColor.withOpacity(0.8),
-                        //       userName: "User Name",
-                        //       userProfilePic:
-                        //           const AssetImage("assets/images/splash_logo.png"),
-                        //       onTap: () {}),
+                  //         // image: const DecorationImage(
+                  //         //     alignment: Alignment.topCenter,
+                  //         //     fit: BoxFit.cover,
+                  //         //     image: AssetImage(
+                  //         //       'assets/images/back2.jpg',
+                  //         //     ))
+                  //       ),
+                  //       child: Center(
+                  //         child: Padding(
+                  //           padding: EdgeInsets.only(
+                  //               bottom:
+                  //                   MediaQuery.of(context).size.height * 0.02),
+                  //           child: SizedBox(
+                  //               height:
+                  //                   MediaQuery.of(context).size.height * 0.1,
+                  //               child: Image.asset(
+                  //                   "assets/images/splashlogo.png")),
+                  //         ),
+                  //       ),
+                  //       // child: Padding(
+                  //       //   padding: EdgeInsets.only(top: 0),
+                  //       //   child: SmallUserCard(
+                  //       //       cardColor: AppColors.primaryColor.withOpacity(0.8),
+                  //       //       userName: "User Name",
+                  //       //       userProfilePic:
+                  //       //           const AssetImage("assets/images/splash_logo.png"),
+                  //       //       onTap: () {}),
 
-                        // ),
-                      )),
+                  //       // ),
+                  //     )),
                   Positioned(
-                      top: MediaQuery.of(context).size.height * 0.12,
+                      top: MediaQuery.of(context).size.height * 0.02,
                       left: 0,
                       right: 0,
                       child: SizedBox(
@@ -240,7 +254,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                                 ),
                                                 SettingsItem(
                                                   onTap: () {
-                                                    Get.to(InAppWebView(
+                                                    Get.to(InAppWebViewPage(
                                                         title:
                                                             "Terms and Conditions",
                                                         webUrl: Platform
@@ -259,8 +273,8 @@ class _SettingsPageState extends State<SettingsPage> {
                                                                 .termOfUseUrl));
                                                     //_launchURL();
                                                   },
-                                                  icons: CupertinoIcons
-                                                      .signature,
+                                                  icons:
+                                                      CupertinoIcons.signature,
                                                   iconStyle: IconStyle(
                                                       backgroundColor:
                                                           Colors.orange),
@@ -271,7 +285,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                                 ),
                                                 SettingsItem(
                                                   onTap: () {
-                                                    Get.to(InAppWebView(
+                                                    Get.to(InAppWebViewPage(
                                                       title: "Privacy Policy",
                                                       webUrl: Platform.isAndroid
                                                           ? appconfigsController

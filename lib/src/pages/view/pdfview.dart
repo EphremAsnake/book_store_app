@@ -23,8 +23,8 @@ class BookView extends StatelessWidget {
             )),
         body: SfPdfViewer.file(
             enableTextSelection: false,
-            scrollDirection: PdfScrollDirection.horizontal,
-            pageLayoutMode: PdfPageLayoutMode.single,
+            scrollDirection: PdfScrollDirection.vertical,
+           // pageLayoutMode: PdfPageLayoutMode.single,
             File(filepath)));
   }
 }
