@@ -306,7 +306,93 @@ class _HomePageState extends State<HomePage>
                                                         MediaQuery.of(context)
                                                             .size
                                                             .width,
-                                                    color: Colors.white,
+                                                    color: Colors.white
+                                                        .withOpacity(0.5),
+                                                    child: Container(
+                                                      constraints: BoxConstraints(
+                                                          maxWidth:
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width),
+                                                      child: Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Expanded(
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .only(
+                                                                      left:
+                                                                          5.0),
+                                                              child: Text(
+                                                                Platform.isAndroid
+                                                                    ? configController
+                                                                        .appConfig
+                                                                        .value!
+                                                                        .androidSettings
+                                                                        .houseAd
+                                                                        .textMessage
+                                                                    : configController
+                                                                        .appConfig
+                                                                        .value!
+                                                                        .iosSettings
+                                                                        .houseAd
+                                                                        .textMessage,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                maxLines: 1,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Container(
+                                                            color: Colors.amber,
+                                                            child: TextButton(
+                                                              onPressed: () {
+                                                                Platform.isAndroid
+                                                                    ? openUrlAndroid(configController
+                                                                        .appConfig
+                                                                        .value!
+                                                                        .androidSettings
+                                                                        .houseAd
+                                                                        .urlId)
+                                                                    : openAppStore(configController
+                                                                        .appConfig
+                                                                        .value!
+                                                                        .iosSettings
+                                                                        .houseAd
+                                                                        .urlId);
+                                                              },
+                                                              child: Text(
+                                                                Platform.isAndroid
+                                                                    ? configController
+                                                                        .appConfig
+                                                                        .value!
+                                                                        .androidSettings
+                                                                        .houseAd
+                                                                        .buttonText
+                                                                    : configController
+                                                                        .appConfig
+                                                                        .value!
+                                                                        .iosSettings
+                                                                        .houseAd
+                                                                        .buttonText,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                maxLines: 1,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
                                                   ),
                                                 )
                                               : const SizedBox.shrink(),
