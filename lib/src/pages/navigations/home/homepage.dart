@@ -8,8 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:open_store/open_store.dart';
 import 'package:resize/resize.dart';
 import 'package:skeleton_loader/skeleton_loader.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../controller/appconfigs.dart';
 import '../../../controller/downloadcontroller.dart';
@@ -140,16 +142,34 @@ class _HomePageState extends State<HomePage>
                         (BuildContext context, bool innerBoxIsScrolled) {
                       return <Widget>[
                         SliverAppBar(
-                          expandedHeight:
-                              MediaQuery.of(context).size.height * 0.1,
+                          expandedHeight: Platform.isAndroid
+                              ? configController.appConfig.value!
+                                      .androidSettings.houseAd.show
+                                  ? MediaQuery.of(context).size.height * 0.15
+                                  : MediaQuery.of(context).size.height * 0.1
+                              : configController
+                                      .appConfig.value!.iosSettings.houseAd.show
+                                  ? MediaQuery.of(context).size.height * 0.15
+                                  : MediaQuery.of(context).size.height * 0.1,
                           backgroundColor: Colors.transparent,
                           flexibleSpace: FlexibleSpaceBar(
                             background: Container(
                                 decoration: const BoxDecoration(
                                   color: AppColors.primarycolor2,
                                 ),
-                                height:
-                                    MediaQuery.of(context).size.height * 0.1,
+                                height: Platform.isAndroid
+                                    ? configController.appConfig.value!
+                                            .androidSettings.houseAd.show
+                                        ? MediaQuery.of(context).size.height *
+                                            0.15
+                                        : MediaQuery.of(context).size.height *
+                                            0.1
+                                    : configController.appConfig.value!
+                                            .iosSettings.houseAd.show
+                                        ? MediaQuery.of(context).size.height *
+                                            0.15
+                                        : MediaQuery.of(context).size.height *
+                                            0.1,
                                 child: Padding(
                                   padding: const EdgeInsets.only(left: 20.0),
                                   child: Column(
@@ -162,10 +182,138 @@ class _HomePageState extends State<HomePage>
                                       //         color: Colors.grey,
                                       //         fontSize: 20.h,
                                       //         fontWeight: FontWeight.w300)),
+                                      //   Platform.isAndroid
+                                      // ? configController.appConfig.value!
+                                      //         .androidSettings.houseAd.show
+                                      //     ? MediaQuery.of(context).size.height *
+                                      //         0.15
+                                      //     : MediaQuery.of(context).size.height *
+                                      //         0.15
+                                      // : configController.appConfig.value!
+                                      //         .iosSettings.houseAd.show
+                                      Platform.isAndroid
+                                          ? configController.appConfig.value!
+                                                  .androidSettings.houseAd.show
+                                              ? Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          right: 20.0),
+                                                  child: Container(
+                                                    height: 40,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width,
+                                                    color: Colors.white
+                                                        .withOpacity(0.5),
+                                                    child: Container(
+                                                      constraints: BoxConstraints(
+                                                          maxWidth:
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width),
+                                                      child: Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Expanded(
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .only(
+                                                                      left:
+                                                                          5.0),
+                                                              child: Text(
+                                                                Platform.isAndroid
+                                                                    ? configController
+                                                                        .appConfig
+                                                                        .value!
+                                                                        .androidSettings
+                                                                        .houseAd
+                                                                        .textMessage
+                                                                    : configController
+                                                                        .appConfig
+                                                                        .value!
+                                                                        .iosSettings
+                                                                        .houseAd
+                                                                        .textMessage,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                maxLines: 1,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Container(
+                                                            color: Colors.amber,
+                                                            child: TextButton(
+                                                              onPressed: () {
+                                                                Platform.isAndroid
+                                                                    ? openUrlAndroid(configController
+                                                                        .appConfig
+                                                                        .value!
+                                                                        .androidSettings
+                                                                        .houseAd
+                                                                        .urlId)
+                                                                    : openAppStore(configController
+                                                                        .appConfig
+                                                                        .value!
+                                                                        .iosSettings
+                                                                        .houseAd
+                                                                        .urlId);
+                                                              },
+                                                              child: Text(
+                                                                Platform.isAndroid
+                                                                    ? configController
+                                                                        .appConfig
+                                                                        .value!
+                                                                        .androidSettings
+                                                                        .houseAd
+                                                                        .buttonText
+                                                                    : configController
+                                                                        .appConfig
+                                                                        .value!
+                                                                        .iosSettings
+                                                                        .houseAd
+                                                                        .buttonText,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                maxLines: 1,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )
+                                              : const SizedBox.shrink()
+                                          : configController.appConfig.value!
+                                                  .iosSettings.houseAd.show
+                                              ? Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          right: 20.0),
+                                                  child: Container(
+                                                    height: 40,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width,
+                                                    color: Colors.white,
+                                                  ),
+                                                )
+                                              : const SizedBox.shrink(),
                                       //!Search Field
                                       Padding(
                                         padding: EdgeInsets.only(
-                                            right: 20.0, top: 10.h),
+                                            right: 20.0, top: 5.h),
                                         child: TextFormField(
                                           onTap: () {
                                             Get.to(const SearchPage());
@@ -426,5 +574,45 @@ class _HomePageState extends State<HomePage>
                           ))),
           )),
     );
+  }
+
+  void openUrlAndroid(String url) async {
+    Uri uri = Uri.parse(url);
+
+    if (uri.isAbsolute && (uri.scheme == 'http' || uri.scheme == 'https')) {
+      //!The Url is a web link'
+      _launchURL(url);
+    } else {
+      //!'The url is package name open playstore
+
+      OpenStore.instance.open(
+        //appStoreId: '1543803459',
+        androidAppBundleId: url,
+      );
+    }
+  }
+
+  void openAppStore(String appId) async {
+    Uri uri = Uri.parse(appId);
+
+    if (uri.isAbsolute && (uri.scheme == 'http' || uri.scheme == 'https')) {
+      //!The Url is a web link'
+      if (await canLaunch(appId)) {
+        await launch(appId);
+      } else {
+        throw 'Could not launch Url.';
+      }
+    } else {
+      //!'The url is AppId open Appstore
+      OpenStore.instance.open(
+        appStoreId: appId,
+      );
+    }
+  }
+
+  Future<void> _launchURL(String _url) async {
+    if (!await launchUrl(Uri.parse(_url))) {
+      throw Exception('Could not launch $_url');
+    }
   }
 }

@@ -101,10 +101,12 @@ class AppRateShare {
 class HouseAd {
   final String buttonText;
   final bool show;
+  final String textMessage;
   final String urlId;
 
   HouseAd({
     required this.buttonText,
+    required this.textMessage,
     required this.show,
     required this.urlId,
   });
@@ -112,6 +114,7 @@ class HouseAd {
   factory HouseAd.fromJson(Map<String, dynamic> json) {
     return HouseAd(
       buttonText: json['button_text'] ?? "",
+      textMessage: json['text_message'] ?? "Update Your Application",
       show: json['show'] ?? false,
       urlId: json['url_id'] ?? "",
     );

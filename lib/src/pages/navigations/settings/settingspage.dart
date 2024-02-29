@@ -5,7 +5,9 @@ import 'package:book_store/src/utils/constants/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:open_store/open_store.dart';
 import 'package:resize/resize.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../controller/appconfigs.dart';
 import '../../../controller/downloadcontroller.dart';
@@ -313,6 +315,56 @@ class _SettingsPageState extends State<SettingsPage> {
                                                 ),
                                                 SettingsItem(
                                                   onTap: () {
+                                                    Platform.isAndroid
+                                                        ? openUrlAndroid(
+                                                            appconfigsController
+                                                                .appConfig
+                                                                .value!
+                                                                .androidSettings
+                                                                .appRateShare
+                                                                .urlId)
+                                                        : openAppStore(
+                                                            appconfigsController
+                                                                .appConfig
+                                                                .value!
+                                                                .iosSettings
+                                                                .appRateShare
+                                                                .urlId);
+                                                  },
+                                                  icons: Icons.star,
+                                                  iconStyle: IconStyle(
+                                                    backgroundColor:
+                                                        Colors.blue,
+                                                  ),
+                                                  title: 'Rate',
+                                                  subtitle: "Rate Us",
+                                                ),
+                                                SettingsItem(
+                                                  onTap: () {
+                                                    shareApp(Platform.isAndroid
+                                                        ? appconfigsController
+                                                            .appConfig
+                                                            .value!
+                                                            .androidSettings
+                                                            .appRateShare
+                                                            .share
+                                                        : appconfigsController
+                                                            .appConfig
+                                                            .value!
+                                                            .iosSettings
+                                                            .appRateShare
+                                                            .share);
+                                                  },
+                                                  icons: Icons.info_rounded,
+                                                  iconStyle: IconStyle(
+                                                    backgroundColor:
+                                                        Colors.yellow,
+                                                  ),
+                                                  title: 'Share',
+                                                  subtitle: "Share App",
+                                                ),
+                                                SettingsItem(
+                                                  onTap: () {
                                                     _pageController
                                                         .animateToPage(0,
                                                             duration:
@@ -478,5 +530,28 @@ class _SettingsPageState extends State<SettingsPage> {
     if (!await launchUrl(Uri.parse(_url))) {
       throw Exception('Could not launch $_url');
     }
+  }
+
+  void shareApp(String shareMessage) {
+    //! Share the app link and message using the share dialog
+    // final shareMessage = Platform.isAndroid
+    //     ? widget.appconfigsController.androidSettings.appRateAndShare?.share ?? ""
+    //     : widget.configResponse.iosSettings.appRateAndShare?.share ?? "";
+
+    Share.share(shareMessage);
+  }
+
+  void openUrlAndroid(String url) async {
+    //!open Playstore
+    OpenStore.instance.open(
+      androidAppBundleId: url,
+    );
+  }
+
+  void openAppStore(String appId) async {
+    final String appStoreUrl =
+        'https://apps.apple.com/app/id$appId?action=write-review';
+
+    _launchURL(appStoreUrl);
   }
 }
