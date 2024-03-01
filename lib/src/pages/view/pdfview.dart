@@ -16,15 +16,15 @@ class BookView extends StatelessWidget {
         backgroundColor: AppColors.primarycolor2,
         appBar: AppBar(
             backgroundColor: AppColors.primarycolor2,
-            iconTheme: IconThemeData(color: Colors.white),
+            iconTheme: const IconThemeData(color: Colors.white),
             title: Text(
               booktitle,
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
             )),
         body: SfPdfViewer.file(
             enableTextSelection: false,
             scrollDirection: PdfScrollDirection.vertical,
-           // pageLayoutMode: PdfPageLayoutMode.single,
+            pageLayoutMode: PdfPageLayoutMode.continuous,
             File(filepath)));
   }
 }

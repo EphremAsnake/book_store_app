@@ -214,7 +214,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 20.h),
                                       child: Padding(
-                                        padding: const EdgeInsets.all(10),
+                                        padding: const EdgeInsets.all(0),
                                         child: ListView(
                                           physics:
                                               const BouncingScrollPhysics(),

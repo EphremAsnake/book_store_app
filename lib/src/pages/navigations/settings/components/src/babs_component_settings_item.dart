@@ -34,47 +34,49 @@ class SettingsItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(15),
-      child: InkWell(
-        onTap: () => onTap(),
-        child: ListTile(
-          leading: (iconStyle != null && iconStyle!.withBackground!)
-              ? Container(
-                  decoration: BoxDecoration(
-                    color: iconStyle!.backgroundColor,
-                    borderRadius:
-                        BorderRadius.circular(iconStyle!.borderRadius!),
+      child: Material(
+        child: InkWell(
+          onTap: () => onTap(),
+          child: ListTile(
+            leading: (iconStyle != null && iconStyle!.withBackground!)
+                ? Container(
+                    decoration: BoxDecoration(
+                      color: iconStyle!.backgroundColor,
+                      borderRadius:
+                          BorderRadius.circular(iconStyle!.borderRadius!),
+                    ),
+                    padding: EdgeInsets.all(5),
+                    child: Icon(
+                      icons,
+                      size: SettingsScreenUtils.settingsGroupIconSize,
+                      color: iconStyle!.iconsColor,
+                    ),
+                  )
+                : Padding(
+                    padding: EdgeInsets.all(5),
+                    child: Icon(
+                      icons,
+                      size: SettingsScreenUtils.settingsGroupIconSize,
+                    ),
                   ),
-                  padding: EdgeInsets.all(5),
-                  child: Icon(
-                    icons,
-                    size: SettingsScreenUtils.settingsGroupIconSize,
-                    color: iconStyle!.iconsColor,
-                  ),
-                )
-              : Padding(
-                  padding: EdgeInsets.all(5),
-                  child: Icon(
-                    icons,
-                    size: SettingsScreenUtils.settingsGroupIconSize,
-                  ),
-                ),
-          title: Text(
-            title,
-            style: titleStyle ?? TextStyle(fontWeight: FontWeight.bold),
-            maxLines: titleMaxLine,
-            overflow: titleMaxLine != null ? overflow : null,
+            title: Text(
+              title,
+              style: titleStyle ?? TextStyle(fontWeight: FontWeight.bold),
+              maxLines: titleMaxLine,
+              overflow: titleMaxLine != null ? overflow : null,
+            ),
+            subtitle: (subtitle != null)
+                ? Text(
+                    subtitle!,
+                    style:
+                        subtitleStyle ?? Theme.of(context).textTheme.bodyMedium!,
+                    maxLines: subtitleMaxLine ?? 1,
+                    overflow:
+                        subtitleMaxLine != null ? TextOverflow.ellipsis : null,
+                  )
+                : null,
+            trailing: (trailing != null) ? trailing : Icon(Icons.navigate_next),
           ),
-          subtitle: (subtitle != null)
-              ? Text(
-                  subtitle!,
-                  style:
-                      subtitleStyle ?? Theme.of(context).textTheme.bodyMedium!,
-                  maxLines: subtitleMaxLine ?? 1,
-                  overflow:
-                      subtitleMaxLine != null ? TextOverflow.ellipsis : null,
-                )
-              : null,
-          trailing: (trailing != null) ? trailing : Icon(Icons.navigate_next),
         ),
       ),
     );
