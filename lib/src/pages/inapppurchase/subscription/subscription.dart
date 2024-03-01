@@ -123,12 +123,11 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                     Container(
                       decoration: const BoxDecoration(
                           color: AppColors.primarycolor2,
-                          borderRadius: BorderRadius.only(
-                              bottomRight: Radius.circular(50))),
-                      height: MediaQuery.of(context).size.height * 0.4,
+                          ),
+                      height: MediaQuery.of(context).size.height * 0.25,
                     ),
                     Positioned(
-                        top: MediaQuery.of(context).size.height * 0.053,
+                        top: MediaQuery.of(context).size.height * 0.043,
                         right: 20,
                         child: IconButton(
                           onPressed: () {
@@ -141,7 +140,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                           color: Colors.white,
                         )),
                     Positioned(
-                        top: MediaQuery.of(context).size.height * 0.17,
+                        top: MediaQuery.of(context).size.height * 0.1,
                         right: 0,
                         left: 0,
                         child: Center(
@@ -201,7 +200,6 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                                               LanguageConstant.failed,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
-                                                fontFamily: 'Customfont',
                                                 fontSize: 16.0,
                                                 color: Colors.white,
                                               ),
@@ -318,42 +316,42 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                           // const SizedBox(
                           //   height: 10,
                           // ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              // InkWell(
-                              //   onTap: () {
+                          // Row(
+                          //   crossAxisAlignment: CrossAxisAlignment.center,
+                          //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          //   children: [
+                          //     // InkWell(
+                          //     //   onTap: () {
 
-                              //   },
-                              //   splashColor: Colors.green,
-                              //   child: const Text(
-                              //       'Privacy Policy',
-                              //       style: TextStyle(color: Colors.black),
-                              //     ),
-                              // ),
-                              const SizedBox(),
-                              TextButton(
-                                child: const Text(
-                                  'Privacy Policy',
-                                  style: TextStyle(
-                                    color: AppColors.primarycolor2,
-                                  ),
-                                ),
-                                onPressed: () {},
-                              ),
-                              TextButton(
-                                child: const Text(
-                                  'Terms of Service',
-                                  style: TextStyle(
-                                    color: AppColors.primarycolor2,
-                                  ),
-                                ),
-                                onPressed: () {},
-                              ),
-                              const SizedBox(),
-                            ],
-                          )
+                          //     //   },
+                          //     //   splashColor: Colors.green,
+                          //     //   child: const Text(
+                          //     //       'Privacy Policy',
+                          //     //       style: TextStyle(color: Colors.black),
+                          //     //     ),
+                          //     // ),
+                          //     const SizedBox(),
+                          //     TextButton(
+                          //       child: const Text(
+                          //         'Privacy Policy',
+                          //         style: TextStyle(
+                          //           color: AppColors.primarycolor2,
+                          //         ),
+                          //       ),
+                          //       onPressed: () {},
+                          //     ),
+                          //     TextButton(
+                          //       child: const Text(
+                          //         'Terms of Service',
+                          //         style: TextStyle(
+                          //           color: AppColors.primarycolor2,
+                          //         ),
+                          //       ),
+                          //       onPressed: () {},
+                          //     ),
+                          //     const SizedBox(),
+                          //   ],
+                          // )
                         ],
                       )
                     : const Padding(
