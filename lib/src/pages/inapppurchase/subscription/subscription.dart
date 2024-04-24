@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import '../../../controller/appconfigs.dart';
+import '../../../controller/subpricecontroller.dart';
 import '../../../controller/subscriptionController.dart';
 import '../../../utils/constants/strings.dart';
 import '../../../widgets/subscriptionbutton.dart';
@@ -27,24 +28,26 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
   SubscriptionController subscriptionController =
       Get.put(SubscriptionController());
   final appconfigsController = Get.put(AppConfigController());
+
   final InAppPurchase _inAppPurchase = InAppPurchase.instance;
 
-  late List<String> _productIds;
+  //late List<String> _productIds;
   bool gotproducts = false;
-  List<ProductDetails> _products = [];
+  //List<ProductDetails> _products = [];
+  final productsListController = Get.find<ProductsListController>();
   final SubscriptionStatus subscriptionStatus = Get.put(SubscriptionStatus());
 
-  Future<void> initStoreInfo() async {
-    await _inAppPurchase.isAvailable();
+  // Future<void> initStoreInfo() async {
+  //   await _inAppPurchase.isAvailable();
 
-    ProductDetailsResponse productDetailsResponse =
-        await _inAppPurchase.queryProductDetails(_productIds.toSet());
+  //   ProductDetailsResponse productDetailsResponse =
+  //       await _inAppPurchase.queryProductDetails(_productIds.toSet());
 
-    setState(() {
-      _products = productDetailsResponse.productDetails;
-      gotproducts = true;
-    });
-  }
+  //   setState(() {
+  //     _products = productDetailsResponse.productDetails;
+  //     gotproducts = true;
+  //   });
+  // }
 
   String monthlySubscriptionID = '';
   String yearlySubscriptionID = '';
@@ -90,24 +93,25 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
           .androidSettings.subscriptionSettings.generalSubscriptionText;
     }
 
-    _productIds = [
-      Platform.isAndroid
-          ? appconfigsController.appConfig.value!.androidSettings
-              .subscriptionSettings.monthSubscriptionId
-          : appconfigsController.appConfig.value!.iosSettings
-              .subscriptionSettings.monthSubscriptionId,
-      Platform.isAndroid
-          ? appconfigsController.appConfig.value!.androidSettings
-              .subscriptionSettings.yearSubscriptionId
-          : appconfigsController.appConfig.value!.iosSettings
-              .subscriptionSettings.yearSubscriptionId
-    ];
+    // _productIds = [
+    //   Platform.isAndroid
+    //       ? appconfigsController.appConfig.value!.androidSettings
+    //           .subscriptionSettings.monthSubscriptionId
+    //       : appconfigsController.appConfig.value!.iosSettings
+    //           .subscriptionSettings.monthSubscriptionId,
+    //   Platform.isAndroid
+    //       ? appconfigsController.appConfig.value!.androidSettings
+    //           .subscriptionSettings.yearSubscriptionId
+    //       : appconfigsController.appConfig.value!.iosSettings
+    //           .subscriptionSettings.yearSubscriptionId
+    // ];
 
-    initStoreInfo();
+    // initStoreInfo();
   }
 
   @override
   Widget build(BuildContext context) {
+    final subscriptionPriceController = Get.find<SubscriptionPriceController>();
     return Scaffold(
         backgroundColor: Colors.white,
         body: Obx(() {
@@ -122,8 +126,8 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                   children: [
                     Container(
                       decoration: const BoxDecoration(
-                          color: AppColors.primarycolor2,
-                          ),
+                        color: AppColors.primarycolor2,
+                      ),
                       height: MediaQuery.of(context).size.height * 0.25,
                     ),
                     Positioned(
@@ -165,202 +169,192 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                         ))
                   ],
                 ),
-                _products.isNotEmpty
-                    ? Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: _products.length,
-                              itemBuilder: ((context, index) {
-                                return SizedBox(
-                                  width: MediaQuery.sizeOf(context).width * 0.5,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 20, vertical: 10),
-                                    child: InkWell(
-                                      borderRadius: BorderRadius.circular(10),
-                                      splashColor: Colors.green,
-                                      onTap: () async {
-                                        if (subscriptionStatus
-                                            .isMonthly.value) {
-                                          Get.snackbar(
-                                            '',
-                                            '',
-                                            snackPosition: SnackPosition.BOTTOM,
-                                            backgroundColor:
-                                                AppColors.primarycolor2,
-                                            colorText: Colors.white,
-                                            duration:
-                                                const Duration(seconds: 2),
-                                            isDismissible: true,
-                                            titleText: const Text(
-                                              LanguageConstant.failed,
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                fontSize: 16.0,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                            maxWidth: 400,
-                                            messageText: const Text(
-                                              LanguageConstant
-                                                  .alreadysubscribedtomonthlysubscription,
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                fontSize: 16.0,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          );
-                                        } else if (subscriptionStatus
-                                            .isYearly.value) {
-                                          Get.snackbar(
-                                            '',
-                                            '',
-                                            snackPosition: SnackPosition.BOTTOM,
-                                            backgroundColor:
-                                                AppColors.primarycolor2,
-                                            colorText: Colors.white,
-                                            duration:
-                                                const Duration(seconds: 2),
-                                            isDismissible: true,
-                                            titleText: const Text(
-                                              LanguageConstant.failed,
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                fontFamily: 'Customfont',
-                                                fontSize: 16.0,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                            maxWidth: 400,
-                                            messageText: const Text(
-                                              LanguageConstant
-                                                  .alreadysubscribedtoyearlysubscription,
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                fontSize: 16.0,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          );
-                                        } else {
-                                          subscriptionController.showProgress();
-                                          late PurchaseParam purchaseParam;
-                                          if (Platform.isAndroid) {
-                                            purchaseParam =
-                                                GooglePlayPurchaseParam(
-                                                    productDetails:
-                                                        _products[index],
-                                                    changeSubscriptionParam:
-                                                        null);
-                                          } else {
-                                            purchaseParam = PurchaseParam(
-                                              productDetails: _products[index],
-                                            );
-                                          }
-
-                                          InAppPurchase.instance
-                                              .buyNonConsumable(
-                                            purchaseParam: purchaseParam,
-                                          );
-                                        }
-                                      },
-                                      child: SubscriptionButton(
-                                        title: _products[index].id ==
-                                                monthlySubscriptionID
-                                            ? '${_products[index].price}${monthlySubscriptionText}'
-                                            : _products[index].id ==
-                                                    yearlySubscriptionID
-                                                ? '${_products[index].price}${yearlySubscriptionText}'
-                                                : '',
-                                        secline: _products[index].id ==
-                                                monthlySubscriptionID
-                                            ? ''
-                                            : _products[index].id ==
-                                                    yearlySubscriptionID
-                                                ? ''
-                                                : '',
-                                        disable: false,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: productsListController.products.length,
+                        itemBuilder: ((context, index) {
+                          return SizedBox(
+                            width: MediaQuery.sizeOf(context).width * 0.5,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 10),
+                              child: InkWell(
+                                borderRadius: BorderRadius.circular(10),
+                                splashColor: Colors.green,
+                                onTap: () async {
+                                  if (subscriptionStatus.isMonthly.value) {
+                                    Get.snackbar(
+                                      '',
+                                      '',
+                                      snackPosition: SnackPosition.BOTTOM,
+                                      backgroundColor: AppColors.primarycolor2,
+                                      colorText: Colors.white,
+                                      duration: const Duration(seconds: 2),
+                                      isDismissible: true,
+                                      titleText: const Text(
+                                        LanguageConstant.failed,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 16.0,
+                                          color: Colors.white,
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                );
-                              })),
+                                      maxWidth: 400,
+                                      messageText: const Text(
+                                        LanguageConstant
+                                            .alreadysubscribedtomonthlysubscription,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 16.0,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    );
+                                  } else if (subscriptionStatus
+                                      .isYearly.value) {
+                                    Get.snackbar(
+                                      '',
+                                      '',
+                                      snackPosition: SnackPosition.BOTTOM,
+                                      backgroundColor: AppColors.primarycolor2,
+                                      colorText: Colors.white,
+                                      duration: const Duration(seconds: 2),
+                                      isDismissible: true,
+                                      titleText: const Text(
+                                        LanguageConstant.failed,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontFamily: 'Customfont',
+                                          fontSize: 16.0,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      maxWidth: 400,
+                                      messageText: const Text(
+                                        LanguageConstant
+                                            .alreadysubscribedtoyearlysubscription,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 16.0,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    );
+                                  } else {
+                                    subscriptionController.showProgress();
+                                    late PurchaseParam purchaseParam;
+                                    if (Platform.isAndroid) {
+                                      purchaseParam = GooglePlayPurchaseParam(
+                                          productDetails: productsListController.products[index],
+                                          changeSubscriptionParam: null);
+                                    } else {
+                                      purchaseParam = PurchaseParam(
+                                        productDetails: productsListController.products[index],
+                                      );
+                                    }
 
-                          const SizedBox(
-                            height: 20,
-                          ),
-
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              TextButton(
-                                child: const Text(
-                                  'Restore Purchase',
-                                  style: TextStyle(
-                                    color: AppColors.primarycolor2,
-                                  ),
+                                    InAppPurchase.instance.buyNonConsumable(
+                                      purchaseParam: purchaseParam,
+                                    );
+                                  }
+                                },
+                                child: SubscriptionButton(
+                                  title: productsListController.products[index].id ==
+                                          monthlySubscriptionID
+                                      ? '${subscriptionPriceController.monthlyPrice}${monthlySubscriptionText}'
+                                      : productsListController.products[index].id ==
+                                              yearlySubscriptionID
+                                          ? '${subscriptionPriceController.yearlyPrice}${yearlySubscriptionText}'
+                                          : '',
+                                  secline: productsListController.products[index].id ==
+                                          monthlySubscriptionID
+                                      ? ''
+                                      : productsListController.products[index].id ==
+                                              yearlySubscriptionID
+                                          ? ''
+                                          : '',
+                                  disable: false,
                                 ),
-                                onPressed: () {},
-                              )
-                            ],
-                          ),
-                          // const SizedBox(
-                          //   height: 10,
-                          // ),
-                          // Row(
-                          //   crossAxisAlignment: CrossAxisAlignment.center,
-                          //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          //   children: [
-                          //     // InkWell(
-                          //     //   onTap: () {
+                              ),
+                            ),
+                          );
+                        })),
 
-                          //     //   },
-                          //     //   splashColor: Colors.green,
-                          //     //   child: const Text(
-                          //     //       'Privacy Policy',
-                          //     //       style: TextStyle(color: Colors.black),
-                          //     //     ),
-                          //     // ),
-                          //     const SizedBox(),
-                          //     TextButton(
-                          //       child: const Text(
-                          //         'Privacy Policy',
-                          //         style: TextStyle(
-                          //           color: AppColors.primarycolor2,
-                          //         ),
-                          //       ),
-                          //       onPressed: () {},
-                          //     ),
-                          //     TextButton(
-                          //       child: const Text(
-                          //         'Terms of Service',
-                          //         style: TextStyle(
-                          //           color: AppColors.primarycolor2,
-                          //         ),
-                          //       ),
-                          //       onPressed: () {},
-                          //     ),
-                          //     const SizedBox(),
-                          //   ],
-                          // )
-                        ],
-                      )
-                    : const Padding(
-                        padding: EdgeInsets.all(30.0),
-                        child: Center(
-                            child: CircularProgressIndicator(
-                          color: Colors.black,
-                        )),
-                      )
+                    const SizedBox(
+                      height: 20,
+                    ),
+
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        TextButton(
+                          child: const Text(
+                            'Restore Purchase',
+                            style: TextStyle(
+                              color: AppColors.primarycolor2,
+                            ),
+                          ),
+                          onPressed: () {},
+                        )
+                      ],
+                    ),
+                    // const SizedBox(
+                    //   height: 10,
+                    // ),
+                    // Row(
+                    //   crossAxisAlignment: CrossAxisAlignment.center,
+                    //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    //   children: [
+                    //     // InkWell(
+                    //     //   onTap: () {
+
+                    //     //   },
+                    //     //   splashColor: Colors.green,
+                    //     //   child: const Text(
+                    //     //       'Privacy Policy',
+                    //     //       style: TextStyle(color: Colors.black),
+                    //     //     ),
+                    //     // ),
+                    //     const SizedBox(),
+                    //     TextButton(
+                    //       child: const Text(
+                    //         'Privacy Policy',
+                    //         style: TextStyle(
+                    //           color: AppColors.primarycolor2,
+                    //         ),
+                    //       ),
+                    //       onPressed: () {},
+                    //     ),
+                    //     TextButton(
+                    //       child: const Text(
+                    //         'Terms of Service',
+                    //         style: TextStyle(
+                    //           color: AppColors.primarycolor2,
+                    //         ),
+                    //       ),
+                    //       onPressed: () {},
+                    //     ),
+                    //     const SizedBox(),
+                    //   ],
+                    // )
+                  ],
+                )
+                // : const Padding(
+                //     padding: EdgeInsets.all(30.0),
+                //     child: Center(
+                //         child: CircularProgressIndicator(
+                //       color: Colors.black,
+                //     )),
+                //   )
               ],
             )),
           ]);

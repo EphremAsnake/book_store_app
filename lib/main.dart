@@ -7,12 +7,15 @@ import 'package:resize/resize.dart';
 
 import 'src/controller/appconfigs.dart';
 import 'src/controller/downloadcontroller.dart';
+import 'src/controller/subpricecontroller.dart';
 import 'src/pages/inapppurchase/purchase/bookpurchase.dart';
 import 'src/pages/navigations/home/logic.dart';
 
 Future<void> main() async {
   await GetStorage.init();
   Get.put(HomeLogic());
+  Get.put(SubscriptionPriceController());
+  
   Get.put(DownloadedBooksController());
   Get.put(AppConfigController());
   Get.put(PurchasedBooksController());

@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:logger/logger.dart';
 import 'package:open_store/open_store.dart';
 import 'package:resize/resize.dart';
 import 'package:skeleton_loader/skeleton_loader.dart';
@@ -15,6 +16,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../controller/appconfigs.dart';
 import '../../../controller/downloadcontroller.dart';
+import '../../../controller/subpricecontroller.dart';
 import '../../../services/apicalls.dart';
 import '../../../services/repos/functions.dart';
 import '../../../widgets/book.dart';
@@ -35,6 +37,7 @@ class _HomePageState extends State<HomePage>
   final controller = Get.put(HomeLogic());
   final configController = Get.put(AppConfigController());
   final storageController = Get.find<DownloadedBooksController>();
+  //final productsListController = Get.find<ProductsListController>();
   late StreamSubscription<List<PurchaseDetails>> _iapSubscription;
 
   @override
@@ -42,6 +45,20 @@ class _HomePageState extends State<HomePage>
     super.initState();
 
     final Stream purchaseUpdated = InAppPurchase.instance.purchaseStream;
+
+    // SubscriptionPriceController subscriptionpriceController =
+    //     SubscriptionPriceController(
+    //   monthlySubscriptionID: Platform.isAndroid
+    //       ? configController.appConfig.value!.androidSettings
+    //           .subscriptionSettings.monthSubscriptionId
+    //       : configController.appConfig.value!.iosSettings.subscriptionSettings
+    //           .monthSubscriptionId,
+    //   yearlySubscriptionID: Platform.isAndroid
+    //       ? configController.appConfig.value!.androidSettings
+    //           .subscriptionSettings.yearSubscriptionId
+    //       : configController.appConfig.value!.iosSettings.subscriptionSettings
+    //           .yearSubscriptionId,
+    // );
 
     _iapSubscription = purchaseUpdated.listen((purchaseDetailsList) {
       IAPService(
@@ -97,6 +114,56 @@ class _HomePageState extends State<HomePage>
           controller.filterBooksByCategory(selectedCategory);
         }
       });
+    }
+    Get.put(ProductsListController());
+    fetchPrices();
+  }
+
+  final InAppPurchase _inAppPurchase = InAppPurchase.instance;
+
+  Future<void> fetchPrices() async {
+    Logger logger = Logger();
+    final subscriptionPriceController = Get.find<SubscriptionPriceController>();
+    List<String> productIdss = [
+      Platform.isAndroid
+          ? configController.appConfig.value!.androidSettings
+              .subscriptionSettings.monthSubscriptionId
+          : configController.appConfig.value!.iosSettings.subscriptionSettings
+              .monthSubscriptionId,
+      Platform.isAndroid
+          ? configController.appConfig.value!.androidSettings
+              .subscriptionSettings.yearSubscriptionId
+          : configController.appConfig.value!.iosSettings.subscriptionSettings
+              .yearSubscriptionId
+    ];
+    final Set<String> ids = productIdss.toSet();
+    final ProductDetailsResponse response =
+        await _inAppPurchase.queryProductDetails(ids);
+    if (response.error != null) {
+      // Handle error
+      return;
+    }
+
+    final String monthSubscriptionIdd = Platform.isAndroid
+        ? configController.appConfig.value!.androidSettings.subscriptionSettings
+            .monthSubscriptionId
+        : configController.appConfig.value!.iosSettings.subscriptionSettings
+            .monthSubscriptionId;
+    final String yearSubscriptionIdd = Platform.isAndroid
+        ? configController.appConfig.value!.androidSettings.subscriptionSettings
+            .yearSubscriptionId
+        : configController.appConfig.value!.iosSettings.subscriptionSettings
+            .yearSubscriptionId;
+    for (ProductDetails product in response.productDetails) {
+      if (product.id == monthSubscriptionIdd) {
+        //_monthlyPrice.value = double.parse(product.price);
+        logger.f("Monthly price: ${product.price}");
+        subscriptionPriceController.updateMonthlyPrice(product.price);
+      } else if (product.id == yearSubscriptionIdd) {
+        logger.f("Yearly price: ${product.price}");
+        subscriptionPriceController.updateYearlyPrice(product.price);
+        //_yearlyPrice.value = double.parse(product.price);
+      }
     }
   }
 
